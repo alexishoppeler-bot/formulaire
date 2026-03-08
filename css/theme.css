@@ -1,0 +1,171 @@
+/* ===== THEME.CSS — Variables & thème global ===== */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  color-scheme: light;
+  /* Palette proactif.ch */
+  --bg:          #f5f5f5;
+  --bg2:         #eeeeee;
+  --bg3:         #e8e8e8;
+  --surface:     #ffffff;
+  --surface2:    #fafafa;
+  --border:      #e0e0e0;
+  --text:        #2f2f2f;
+  --text2:       #555555;
+  --text3:       #999999;
+
+  /* Couleurs proactif.ch */
+  --accent:      #325da9;
+  --accent2:     #83bd45;
+  --accent3:     #b4cc1d;
+  --accent4:     #325da9;
+  --danger:      #c0392b;
+  --success:     #83bd45;
+  --warning:     #b4cc1d;
+
+  --gradient:    linear-gradient(135deg, #325da9 0%, #83bd45 100%);
+  --gradient2:   linear-gradient(135deg, #83bd45 0%, #325da9 100%);
+  --gradient3:   linear-gradient(135deg, #b4cc1d 0%, #c0392b 100%);
+
+  /* Typographie Open Sans */
+  --font-head:   'Open Sans', sans-serif;
+  --font-body:   'Open Sans', sans-serif;
+
+  /* Espacements */
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  14px;
+  --r-xl:  20px;
+
+  /* Ombres douces */
+  --shadow-sm: 0 1px 4px rgba(26,86,168,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(26,86,168,0.10), 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 32px rgba(26,86,168,0.12), 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-accent: 0 4px 16px rgba(26,86,168,0.18);
+  --shadow-green:  0 4px 16px rgba(26,122,74,0.15);
+
+  /* Sidebar */
+  --sidebar-w: 280px;
+  --header-h:  60px;
+}
+
+/* MODE SOMBRE */
+body.dark {
+  color-scheme: dark;
+  --bg:      #0f1117;
+  --bg2:     #161b27;
+  --bg3:     #1e2535;
+  --surface: #222b3d;
+  --surface2:#2a3550;
+  --border:  rgba(255,255,255,0.08);
+  --text:    #e8edf5;
+  --text2:   #8b95ab;
+  --text3:   #5a6478;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+}
+
+/* Rétrocompatibilité : ancienne classe .light → thème clair (déjà défaut) */
+body.light {
+  --bg:      #f4f6f9;
+  --bg2:     #edf0f5;
+  --bg3:     #e3e8f0;
+  --surface: #ffffff;
+  --surface2:#f8fafc;
+  --border:  #d0d8e4;
+  --text:    #1a2236;
+  --text2:   #4a5568;
+  --text3:   #8a96a8;
+  --shadow-sm: 0 1px 4px rgba(26,86,168,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(26,86,168,0.10), 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 32px rgba(26,86,168,0.12), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* MODE DYSLEXIE */
+body.dyslexia {
+  --font-body: 'OpenDyslexic', 'Comic Sans MS', cursive;
+  --font-head: 'OpenDyslexic', 'Comic Sans MS', cursive;
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  word-spacing: 0.15em;
+}
+
+/* ACCESSIBILITÉ : Focus visible */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { opacity: 0.8; }
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+  border: none;
+  outline: none;
+}
+
+input, textarea, select {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26,86,168,0.12);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }

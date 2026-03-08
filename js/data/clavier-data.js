@@ -1,0 +1,47 @@
+﻿/* ===== JS/DATA/CLAVIER-DATA.JS ===== */
+'use strict';
+
+window.CLAVIER_DATA = {
+  debutant: [
+    'Je m’appelle Ali.',
+    'Mon nom est Dupont.',
+    'Je remplis le formulaire.',
+    'J’écris mon prénom.',
+    'J’écris mon nom.',
+    'J’écris mon adresse.',
+    'J’écris mon numéro.',
+    'J’écris mon téléphone.',
+    'J’écris mon e-mail.',
+    'Je coche la case.',
+    'Je mets la date.',
+    'Je signe le document.',
+  ],
+  intermediaire: [
+    'J’écris ma date de naissance.',
+    'Je complète mon adresse complète.',
+    'Je note mon code postal et ma ville.',
+    'Je vérifie mon numéro de téléphone.',
+    'Je remplis tous les champs obligatoires.',
+    'Je relis le formulaire avant d’envoyer.',
+    'Je coche la bonne réponse.',
+    'J’ajoute mon adresse e-mail.',
+    'Je complète les informations personnelles.',
+    'Je signe à la fin du formulaire.',
+    'Je corrige une erreur dans le document.',
+    'Je clique sur envoyer.',
+  ],
+  avance: [
+    'Je remplis un formulaire en ligne sans aide.',
+    'Je vérifie que toutes les informations sont correctes.',
+    'Je complète les champs avec attention et précision.',
+    'J’écris mon adresse complète sans oublier le code postal.',
+    'Je relis le document avant de le signer.',
+    'Je joins les documents demandés au formulaire.',
+    'Je complète les informations personnelles et professionnelles.',
+    'Je vérifie que mon numéro de téléphone est correct.',
+    'Je fais attention aux majuscules et aux accents.',
+    'Je peux remplir un formulaire papier ou en ligne.',
+    'Je lis les consignes avant de répondre.',
+    'Je termine puis j’envoie le formulaire.',
+  ],
+};

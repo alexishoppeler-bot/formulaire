@@ -1,0 +1,328 @@
+/* Styles communs pour les pages de cours (games/cours-*.html) */
+
+.cours-page .hero-section {
+  margin-bottom: 48px;
+  padding: 40px 0 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cours-page .hero-section h1 {
+  color: var(--text);
+  margin-bottom: 10px;
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.cours-page .hero-meta {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+  color: var(--text2);
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.cours-page .meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cours-page .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.cours-page .back-link:hover { text-decoration: underline; }
+
+.cours-page .content-section {
+  margin-bottom: 48px;
+  padding: 32px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+}
+
+.cours-page .content-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.cours-page .content-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 20px 0 12px;
+}
+
+.cours-page .content-section p {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.cours-page .content-section ul,
+.cours-page .content-section ol {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.cours-page .content-section li {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+/* Encadrés */
+.cours-page .highlight-box {
+  background: rgba(50, 93, 169, 0.05);
+  border-left: 4px solid var(--accent);
+  padding: 16px;
+  border-radius: var(--r-md);
+  margin: 20px 0;
+}
+
+.cours-page .highlight-box strong { color: var(--accent); }
+
+.cours-page .warning-box {
+  background: rgba(192, 57, 43, 0.05);
+  border-left: 4px solid var(--danger);
+  padding: 16px;
+  border-radius: var(--r-md);
+  margin: 20px 0;
+}
+
+.cours-page .warning-box strong { color: var(--danger); }
+
+.cours-page .exercise-block {
+  background: rgba(131, 189, 69, 0.05);
+  border-left: 4px solid var(--success);
+  padding: 16px;
+  border-radius: var(--r-md);
+  margin: 20px 0;
+}
+
+.cours-page .exercise-block h4 {
+  color: var(--success);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+/* Cards de mots importants (protection-donnees) */
+.cours-page .key-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.cours-page .key-point-card {
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.cours-page .key-point-card strong {
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.cours-page .key-point-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Vocabulaire (cours-vocabulaire-pro) */
+.cours-page .vocab-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.cours-page .vocab-table th,
+.cours-page .vocab-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.cours-page .vocab-table th {
+  background: var(--bg);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cours-page .vocab-table tr:hover { background: var(--bg); }
+.cours-page .vocab-term { font-weight: 600; color: var(--accent); }
+
+.cours-page .category-section {
+  background: var(--bg);
+  padding: 16px;
+  border-radius: var(--r-md);
+  margin: 16px 0;
+}
+
+.cours-page .category-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.cours-page .vocab-item {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-md);
+}
+
+.cours-page .vocab-item-term {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.cours-page .vocab-item-def {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 4px;
+}
+
+.cours-page .vocab-item-ex {
+  font-size: 13px;
+  color: var(--text3);
+  font-style: italic;
+}
+
+/* Joindre des fichiers (cours-joindre-fichiers) */
+.cours-page .step-box {
+  background: var(--bg);
+  border-left: 4px solid var(--accent);
+  padding: 16px;
+  border-radius: var(--r-md);
+  margin: 16px 0;
+}
+
+.cours-page .step-number {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 32px;
+  font-weight: 700;
+  margin-right: 12px;
+}
+
+.cours-page .step-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.cours-page .file-formats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.cours-page .format-card {
+  background: var(--bg);
+  padding: 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+
+.cours-page .format-name { font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+.cours-page .format-desc { font-size: 14px; color: var(--text2); margin-bottom: 8px; }
+.cours-page .format-use  { font-size: 13px; color: var(--text3); font-style: italic; }
+
+/* Révision (cours-revision-semaine) */
+.cours-page .course-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.cours-page .summary-card {
+  background: var(--bg);
+  padding: 20px;
+  border-radius: var(--r-md);
+  border-left: 4px solid var(--accent);
+}
+
+.cours-page .summary-card h4 {
+  color: var(--accent);
+  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.cours-page .summary-card ul { margin-left: 16px; font-size: 14px; }
+.cours-page .summary-card li { margin-bottom: 8px; }
+
+.cours-page .checklist {
+  background: var(--bg);
+  padding: 20px;
+  border-radius: var(--r-md);
+  margin: 20px 0;
+}
+
+.cours-page .checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: var(--surface);
+  border-radius: var(--r-md);
+}
+
+.cours-page .checklist-checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.cours-page .checklist-text { font-size: 15px; color: var(--text2); }
+
+@media (max-width: 600px) {
+  .cours-page .hero-section h1 { font-size: 26px; }
+  .cours-page .content-section { padding: 20px; }
+  .cours-page .content-section h2 { font-size: 20px; }
+  .cours-page .file-formats { grid-template-columns: 1fr; }
+  .cours-page .vocab-table { font-size: 14px; }
+  .cours-page .vocab-table th,
+  .cours-page .vocab-table td { padding: 8px; }
+}
+
+/* Mise en page: pas de sidebar sur les pages de cours */
+.cours-page .sidebar { display: none; }
+.cours-page .layout { padding-left: 0; }
+.cours-page .footer { margin-left: 0; }
+
