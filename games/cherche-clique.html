@@ -129,11 +129,15 @@
   /* ── Initialiser le jeu ── */
   function initGame() {
     const data = window.CHERCHE_CLIQUE_DATA || [];
+    if (!data || data.length === 0) {
+      console.error('CHERCHE_CLIQUE_DATA not loaded');
+      return;
+    }
     itemOrder = shuffle(data);
     session = { correct: 0, errors: 0, xp: 0, questionCount: 0, active: true };
     updateKpi();
-    renderGrid();
-    nextQuestion();
+    nextQuestion(); // Initialiser targetIndex d'abord
+    renderGrid();   // Puis afficher la grille
     startExerciseSession(PAGE_ID);
   }
 
@@ -154,18 +158,18 @@
 
     // S'assurer que la cible est dans la grille
     const target = itemOrder[targetIndex];
-    let subset = shuffle(itemOrder).slice(0, 15);
+    if (!target) return; // Sécurité
 
-    // Ajouter la cible si elle n'est pas déjà dedans
-    if (!subset.some(item => item.id === target.id)) {
-      subset = subset.slice(0, 15);
-      subset.push(target);
-    }
+    // Créer subset de 15 items différents de la cible
+    let subset = shuffle(itemOrder.filter(item => item.id !== target.id)).slice(0, 15);
+
+    // Ajouter la cible à la fin
+    subset.push(target);
 
     // Re-shuffle pour position aléatoire
     subset = shuffle(subset);
 
-    subset.forEach((item, idx) => {
+    subset.forEach((item) => {
       const el = document.createElement('div');
       el.className = 'game-item';
       el.innerHTML = `<div>${item.icon}</div>`;
