@@ -194,6 +194,10 @@
     session.questionCount++;
     targetIndex = Math.floor(Math.random() * itemOrder.length);
     const target = itemOrder[targetIndex];
+    if (!target) {
+      console.error('Target not found at index', targetIndex, 'itemOrder length:', itemOrder.length);
+      return;
+    }
     document.getElementById('targetName').textContent = target.label;
   }
 
