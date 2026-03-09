@@ -101,6 +101,13 @@
   <script src="../js/ui.js"></script>
   <script>
   'use strict';
+
+  // Sécurité: vérifier que les données sont chargées
+  if (!window.CHERCHE_CLIQUE_DATA) {
+    console.error('CHERCHE_CLIQUE_DATA non chargées - vérifier le fichier js/data/cherche-clique-data.js');
+    window.CHERCHE_CLIQUE_DATA = [];
+  }
+
   const PAGE_ID = 'cherche-clique';
   const TOTAL_QUESTIONS = 10;
 

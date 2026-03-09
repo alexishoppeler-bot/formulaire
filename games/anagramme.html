@@ -154,6 +154,12 @@
   <script>
   'use strict';
 
+  // Sécurité: vérifier que les données sont chargées
+  if (!window.ANAGRAMME_DATA) {
+    console.error('ANAGRAMME_DATA non chargées - vérifier le fichier js/data/anagramme-data.js');
+    window.ANAGRAMME_DATA = [];
+  }
+
   /* ===== DONNÉES ===== */
   const WORDS = window.ANAGRAMME_DATA;
 
