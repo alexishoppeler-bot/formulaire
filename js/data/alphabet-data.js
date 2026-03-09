@@ -2,15 +2,14 @@
 'use strict';
 
 window.ALPHABET_DATA = [
-  { words: ['Zebra', 'Apple', 'Chien', 'Éléphant', 'Fleur', 'Girafe', 'Horloge', 'Île'], difficulty: 'easy' },
-  { words: ['Jardin', 'Kiwi', 'Lune', 'Maison', 'Nuit', 'Océan', 'Papillon', 'Quartz'], difficulty: 'easy' },
-  { words: ['Rêve', 'Soleil', 'Table', 'Univers', 'Voiture', 'Wise', 'Xylophone', 'Yoyo'], difficulty: 'easy' },
-  { words: ['Acrobate', 'Ballon', 'Camping', 'Danseur', 'Escalier', 'Fusée', 'Graffiti', 'Harmonie'], difficulty: 'easy' },
-  { words: ['Igloo', 'Jasmin', 'Kayak', 'Lumière', 'Marché', 'Nager', 'Ouvrage', 'Peinture'], difficulty: 'easy' },
-  { words: ['Quart', 'Rasoir', 'Sourire', 'Toucher', 'Unique', 'Valet', 'Whisky', 'Xeric'], difficulty: 'easy' },
-  { words: ['Ananas', 'Bâton', 'Cactus', 'Danger', 'Énigme', 'Famine', 'Génie', 'Hachette'], difficulty: 'easy' },
-  { words: ['Ignis', 'Jument', 'Kaoline', 'Levain', 'Maraud', 'Néant', 'Opium', 'Panier'], difficulty: 'easy' },
-  { words: ['Ascent', 'Bureau', 'Cousin', 'Douche', 'Esprit', 'Fauteuil', 'Gant', 'Haricot'], difficulty: 'easy' },
-  { words: ['Ichor', 'Joug', 'Kamikaze', 'Lichen', 'Mousseline', 'Naphte', 'Orchidée', 'Paillard'], difficulty: 'easy' }
+  { words: ['Adresse', 'Bouton', 'Case', 'Date', 'Email', 'Formulaire', 'Guichet', 'Heure'], difficulty: 'easy' },
+  { words: ['Identité', 'Justificatif', 'Klaxon', 'Liste', 'Motif', 'Nom', 'Option', 'Prénom'], difficulty: 'easy' },
+  { words: ['Question', 'Réponse', 'Signature', 'Téléphone', 'URL', 'Ville', 'Web', 'XML'], difficulty: 'easy' },
+  { words: ['Annuler', 'Brochure', 'Confirmation', 'Document', 'Envoyer', 'Fichier', 'Groupe', 'Habitation'], difficulty: 'easy' },
+  { words: ['Inscription', 'Jour', 'Kilomètre', 'Langue', 'Message', 'Nationalité', 'Organisation', 'Pays'], difficulty: 'easy' },
+  { words: ['Quartier', 'Rue', 'Saisie', 'Texte', 'Usager', 'Validation', 'Wifi', 'Xérox'], difficulty: 'easy' },
+  { words: ['Attestation', 'Bureau', 'Code', 'Demande', 'État civil', 'Feuille', 'Genre', 'Horaire'], difficulty: 'easy' },
+  { words: ['Imprimer', 'Joindre', 'Koala', 'Localité', 'Menu', 'Numéro', 'Objet', 'Pièce jointe'], difficulty: 'easy' },
+  { words: ['Adresse mail', 'Bouton envoyer', 'Case à cocher', 'Date de naissance', 'Erreur', 'Formulaire papier', 'Guichet en ligne', 'Historique'], difficulty: 'easy' },
+  { words: ['Identifiant', 'Justifier', 'Mot de passe', 'Nom de famille', 'Organisation', 'Pays d’origine', 'Question obligatoire', 'Réinitialiser'], difficulty: 'easy' }
 ];
-
