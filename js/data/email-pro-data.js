@@ -18,18 +18,25 @@ window.EMAIL_PRO_DATA = [
         reasonIfWrong: ''
       },
       {
-        subject: 'Re',
-        body: 'Salut,\n\nVoilà.\n\nYacine',
-        attachment: 'Pièce jointe non précisée',
-        signature: 'Signature incomplète',
-        reasonIfWrong: 'Le ton est trop familier et la réponse est trop vague.'
+        subject: 'Re: Demande de preuves de recherches',
+        body: 'Bonjour Madame Dupont,\n\nJe vous transmets mes preuves de recherches d’emploi.\n\nCordialement,\nYacine Ben Saad',
+        attachment: 'Pièce jointe non annoncée',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Le message est proche du bon, mais il ne précise pas clairement la pièce jointe.'
       },
       {
-        subject: 'Question ORP',
-        body: 'Bonjour,\n\nJe n’ai pas encore fini. Je vous enverrai plus tard.\n\nMerci',
-        attachment: 'Aucune pièce jointe',
-        signature: 'Pas de signature complète',
-        reasonIfWrong: 'La demande n’est pas traitée : la pièce jointe manque.'
+        subject: 'Preuves de recherches - février',
+        body: 'Bonjour Madame Dupont,\n\nVeuillez trouver en pièce jointe mes preuves de recherches d’emploi.\n\nMeilleures salutations,\nYacine Ben Saad',
+        attachment: 'Preuves jointes',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Cette réponse fonctionne, mais elle reprend moins bien l’objet initial et ne mentionne pas explicitement février dans le message.'
+      },
+      {
+        subject: 'Re: Demande de preuves de recherches',
+        body: 'Bonjour Madame Dupont,\n\nJe vous envoie en pièce jointe mes preuves de recherches d’emploi pour février.\n\nSalutations,\nYacine Ben Saad',
+        attachment: 'Preuves jointes',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Le contenu est bon, mais la formule finale est moins soignée que dans la meilleure réponse.'
       }
     ],
     answer: 0,
@@ -52,18 +59,25 @@ window.EMAIL_PRO_DATA = [
         reasonIfWrong: ''
       },
       {
-        subject: 'Ok',
-        body: 'Oui c’est bon.',
-        attachment: 'Aucune',
-        signature: 'Aucune signature',
-        reasonIfWrong: 'La réponse est trop courte et sans formule professionnelle.'
+        subject: 'Re: Disponibilité pour entretien',
+        body: 'Bonjour,\n\nJe confirme que je suis disponible mardi à 10h pour l’entretien.\n\nCordialement,\nInes Carvalho',
+        attachment: 'Aucune pièce jointe nécessaire',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Cette réponse est acceptable, mais la meilleure reprend aussi le remerciement initial.'
       },
       {
-        subject: 'Recrutement',
-        body: 'Bonjour,\n\nPouvez-vous me dire le salaire avant l’entretien ?\n\nMerci',
-        attachment: 'Aucune',
-        signature: 'Signature incomplète',
-        reasonIfWrong: 'La réponse est hors sujet : il faut d’abord confirmer le rendez-vous.'
+        subject: 'Disponibilité entretien mardi',
+        body: 'Bonjour,\n\nMerci pour votre message. Je serai disponible mardi à 10h.\n\nMeilleures salutations,\nInes',
+        attachment: 'Aucune pièce jointe nécessaire',
+        signature: 'Prénom uniquement',
+        reasonIfWrong: 'Le message confirme bien le rendez-vous, mais la signature est incomplète.'
+      },
+      {
+        subject: 'Re: Disponibilité pour entretien',
+        body: 'Bonjour,\n\nMerci pour votre message. Je confirme ma disponibilité pour mardi.\n\nMeilleures salutations,\nInes Carvalho',
+        attachment: 'Aucune pièce jointe nécessaire',
+        signature: 'Signature complète',
+        reasonIfWrong: 'La réponse est proche, mais elle oublie l’heure précise de 10h.'
       }
     ],
     answer: 0,
@@ -86,25 +100,25 @@ window.EMAIL_PRO_DATA = [
         reasonIfWrong: ''
       },
       {
-        subject: 'Demande commune',
-        body: 'Bonjour,\n\nJe pense que je vous ai déjà envoyé ce document hier.\n\nSalutations',
-        attachment: 'Aucune pièce jointe',
-        signature: 'Pas de nom',
-        reasonIfWrong: 'La réponse est incomplète et la pièce jointe demandée est absente.'
+        subject: 'Re: Attestation demandée',
+        body: 'Bonjour,\n\nVeuillez trouver en pièce jointe mon attestation de domicile.\n\nJe vous remercie.\n\nMeilleures salutations,\nLina Messaoudi',
+        attachment: 'Attestation jointe',
+        signature: 'Signature complète',
+        reasonIfWrong: 'La réponse est presque bonne, mais elle ne précise pas que le document est bien en PDF.'
       },
       {
-        subject: '(aucun objet)',
-        body: 'Bonjour,\n\nPièce jointe.\n\nLina',
-        attachment: 'Non précisé',
-        signature: 'Signature incomplète',
-        reasonIfWrong: 'Objet absent et message trop pauvre pour un contexte administratif.'
+        subject: 'Attestation de domicile - Lina Messaoudi',
+        body: 'Bonjour,\n\nVeuillez trouver en pièce jointe mon attestation de domicile au format PDF.\n\nCordialement,\nLina Messaoudi',
+        attachment: 'Attestation PDF jointe',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Cette version est correcte, mais la meilleure garde l’objet de la demande reçue et une formule un peu plus soignée.'
       },
       {
-        subject: 'URGENT',
-        body: 'Hello,\n\nFaites vite svp.\n\nMerci',
-        attachment: 'Aucune pièce jointe',
-        signature: 'Aucune signature',
-        reasonIfWrong: 'Ton inadapté et document demande non fourni.'
+        subject: 'Re: Attestation demandée',
+        body: 'Bonjour,\n\nVeuillez trouver en pièce jointe mon attestation de domicile au format PDF.\n\nJe vous remercie.\n\nMeilleures salutations,\nLina',
+        attachment: 'Attestation PDF jointe',
+        signature: 'Prénom uniquement',
+        reasonIfWrong: 'Le contenu est solide, mais la signature reste incomplète dans un contexte administratif.'
       }
     ],
     answer: 0,
@@ -127,18 +141,25 @@ window.EMAIL_PRO_DATA = [
         reasonIfWrong: ''
       },
       {
-        subject: 'Re',
-        body: 'Bonjour,\n\nJe vais le faire bientôt.\n\nMerci',
-        attachment: 'Aucune pièce jointe',
-        signature: 'Pas de nom complet',
-        reasonIfWrong: 'La demande n’est pas exécutée : le CV n’est pas joint.'
+        subject: 'Re: Merci d’envoyer votre CV mis à jour',
+        body: 'Bonjour Madame Renaud,\n\nJe vous transmets mon CV mis à jour.\n\nCordialement,\nJoao Pereira',
+        attachment: 'CV non annoncé clairement',
+        signature: 'Signature complète',
+        reasonIfWrong: 'La réponse paraît correcte, mais elle n’indique pas explicitement la pièce jointe.'
       },
       {
-        subject: 'CV',
-        body: 'Salut,\n\nTu trouveras mon CV.\n\nA+',
-        attachment: 'CV possiblement joint',
-        signature: 'Signature absente',
-        reasonIfWrong: 'Le ton est trop familier et la formule de clôture est inadaptée.'
+        subject: 'CV mis à jour - Joao Pereira',
+        body: 'Bonjour Madame Renaud,\n\nMerci pour votre message. Vous trouverez mon CV mis à jour en pièce jointe.\n\nMeilleures salutations,\nJoao Pereira',
+        attachment: 'CV joint',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Cette réponse est bonne, mais la meilleure garde la formulation la plus directe par rapport à la demande reçue.'
+      },
+      {
+        subject: 'Re: Merci d’envoyer votre CV mis à jour',
+        body: 'Bonjour Madame Renaud,\n\nMerci pour votre message. Je vous transmets mon CV en pièce jointe.\n\nCordialement,\nJoao Pereira',
+        attachment: 'CV joint',
+        signature: 'Signature complète',
+        reasonIfWrong: 'La réponse reste plausible, mais elle ne reprend pas le fait que le CV doit être mis à jour.'
       }
     ],
     answer: 0,
@@ -161,18 +182,25 @@ window.EMAIL_PRO_DATA = [
         reasonIfWrong: ''
       },
       {
-        subject: 'Convocation',
-        body: 'Bonjour,\n\nJe crois que je peux venir mais pas sûr.\n\nFatima',
-        attachment: 'Aucune',
-        signature: 'Signature incomplète',
-        reasonIfWrong: 'La confirmation n’est pas claire.'
+        subject: 'Re: Convocation entretien ORP',
+        body: 'Bonjour,\n\nJe confirme ma présence à l’entretien ORP du jeudi 14 mars.\n\nMeilleures salutations,\nFatima El Idrissi',
+        attachment: 'Aucune pièce jointe nécessaire',
+        signature: 'Signature complète',
+        reasonIfWrong: 'La réponse est presque correcte, mais elle oublie l’heure de 09h00.'
       },
       {
-        subject: 'Re',
-        body: 'Ok',
-        attachment: 'Aucune',
-        signature: 'Aucune signature',
-        reasonIfWrong: 'Réponse trop courte et non professionnelle.'
+        subject: 'Confirmation présence ORP',
+        body: 'Bonjour,\n\nJe confirme ma présence le jeudi 14 mars à 09h00.\n\nCordialement,\nFatima El Idrissi',
+        attachment: 'Aucune pièce jointe nécessaire',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Cette réponse est correcte, mais la meilleure reprend aussi le contexte précis de l’entretien ORP.'
+      },
+      {
+        subject: 'Re: Convocation entretien ORP',
+        body: 'Bonjour,\n\nJe confirme ma présence à l’entretien ORP du jeudi 14 mars à 09h00.\n\nSalutations,\nFatima El Idrissi',
+        attachment: 'Aucune pièce jointe nécessaire',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Le message est bon, mais la formule finale est un peu moins soignée que dans la meilleure réponse.'
       }
     ],
     answer: 0,
@@ -195,18 +223,25 @@ window.EMAIL_PRO_DATA = [
         reasonIfWrong: ''
       },
       {
-        subject: 'Formulaire',
-        body: 'Bonjour,\n\nJe regarderai ce soir.\n\nMerci',
-        attachment: 'Aucune pièce jointe',
-        signature: 'Signature absente',
-        reasonIfWrong: 'Le formulaire signé demandé n’est pas envoyé.'
+        subject: 'Re: Formulaire à signer',
+        body: 'Bonjour,\n\nVeuillez trouver en pièce jointe le formulaire demandé.\n\nJe vous remercie de votre confirmation de réception.\n\nCordialement,\nNora Ait Ali',
+        attachment: 'Formulaire joint',
+        signature: 'Signature complète',
+        reasonIfWrong: 'La réponse est proche, mais elle ne précise pas que le formulaire est signé.'
       },
       {
-        subject: 'Hello assurance',
-        body: 'Hello,\n\nC’est bon pour moi.\n\nÀ bientôt',
-        attachment: 'Aucune pièce jointe',
-        signature: 'Pas de signature',
-        reasonIfWrong: 'Formulation trop familière et réponse incomplète.'
+        subject: 'Formulaire signé - Nora Ait Ali',
+        body: 'Bonjour,\n\nVeuillez trouver en pièce jointe le formulaire signé demandé.\n\nMeilleures salutations,\nNora Ait Ali',
+        attachment: 'Formulaire signé joint',
+        signature: 'Signature complète',
+        reasonIfWrong: 'Cette réponse fonctionne, mais la meilleure demande aussi une confirmation de réception.'
+      },
+      {
+        subject: 'Re: Formulaire à signer',
+        body: 'Bonjour,\n\nVeuillez trouver en pièce jointe le formulaire signé demandé.\n\nJe vous remercie.\n\nNora Ait Ali',
+        attachment: 'Formulaire signé joint',
+        signature: 'Nom sans formule finale',
+        reasonIfWrong: 'Le contenu est presque bon, mais la formule finale manque.'
       }
     ],
     answer: 0,

@@ -64,9 +64,7 @@
   function setFeedback(text, type) {
     if (!dom.feedback) return;
     dom.feedback.textContent = text;
-    dom.feedback.style.color = type === 'ok'
-      ? 'var(--success)'
-      : (type === 'error' ? 'var(--danger)' : 'var(--text2)');
+    dom.feedback.dataset.state = type || 'info';
   }
 
   function updateKPI() {
@@ -86,6 +84,33 @@
     if (dom.progress) {
       dom.progress.textContent = `Étape ${stepNum} / ${total}`;
     }
+    if (dom.goalAction) {
+      dom.goalAction.textContent = task ? actionLabel(task.expected) : 'Parcours terminé';
+    }
+    if (dom.goalTarget) {
+      dom.goalTarget.textContent = task ? targetLabel(task.expected) : 'Aucune action';
+    }
+  }
+
+  function actionLabel(expected) {
+    const type = expected && expected.type;
+    if (type === 'open') return 'Ouvrir la fenêtre';
+    if (type === 'close' || type === 'close-ad') return 'Fermer la fenêtre';
+    if (type === 'maximize') return 'Agrandir la fenêtre';
+    if (type === 'minimize') return 'Réduire dans la barre des tâches';
+    if (type === 'restore') return 'Restaurer la fenêtre';
+    if (type === 'focus') return 'Mettre au premier plan';
+    if (type === 'switch-tab') return 'Changer d’onglet';
+    return 'Suivre la consigne';
+  }
+
+  function targetLabel(expected) {
+    if (!expected) return '';
+    const title = windowTitle(expected.target);
+    if (expected.type === 'switch-tab' && expected.value) {
+      return `${title} -> onglet ${expected.value}`;
+    }
+    return title;
   }
 
   function addUnique(arr, value) {
@@ -457,17 +482,104 @@
     content.setAttribute('role', 'button');
     content.setAttribute('aria-label', `Activer le contenu de la fenêtre ${meta.title || id}`);
     if (id === 'browser') {
-      content.textContent = `Contenu affiché: ${session.currentState.activeTab || 'Google'}`;
+      content.appendChild(buildBrowserContent());
     } else if (id === 'email') {
-      content.textContent = 'Boîte de réception - cliquez pour prendre le focus.';
+      content.appendChild(buildEmailContent());
     } else {
-      content.textContent = 'Popup publicitaire: cliquez sur fermer.';
+      content.appendChild(buildAdContent());
     }
     content.addEventListener('click', () => handleAction({ type: 'focus', target: id }));
     bindKeyboardActivation(content, () => handleAction({ type: 'focus', target: id }));
 
     win.appendChild(content);
     return win;
+  }
+
+  function buildBrowserContent() {
+    const wrap = document.createElement('div');
+    wrap.className = 'fw-browser-ui';
+
+    const address = document.createElement('div');
+    address.className = 'fw-addressbar';
+    address.innerHTML = `<span>🔒</span><strong>${browserAddressLabel()}</strong><span>★</span>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'fw-browser-grid';
+
+    const mainCard = document.createElement('section');
+    mainCard.className = 'fw-browser-card';
+    mainCard.innerHTML = `
+      <h3>${session.currentState.activeTab || 'Google'}</h3>
+      <p>${browserMainText()}</p>
+      <div class="fw-chip-row">
+        <span class="fw-chip">Barre d'onglets visible</span>
+        <span class="fw-chip">Fenêtre interactive</span>
+        <span class="fw-chip">Cliquez pour activer</span>
+      </div>
+    `;
+
+    const side = document.createElement('div');
+    side.className = 'fw-browser-side';
+    side.innerHTML = `
+      <div class="fw-browser-card">
+        <h3>Repère utile</h3>
+        <p>La fenêtre active apparaît devant les autres et son contour est mis en évidence.</p>
+      </div>
+      <div class="fw-browser-card">
+        <h3>Bonne habitude</h3>
+        <p>Avant de fermer ou réduire, vérifiez que vous agissez sur la bonne fenêtre.</p>
+      </div>
+    `;
+
+    grid.appendChild(mainCard);
+    grid.appendChild(side);
+    wrap.appendChild(address);
+    wrap.appendChild(grid);
+    return wrap;
+  }
+
+  function browserAddressLabel() {
+    const tab = normalize(session.currentState.activeTab);
+    if (tab === 'youtube') return 'youtube.com';
+    if (tab === 'gmail') return 'mail.google.com';
+    return 'google.com';
+  }
+
+  function browserMainText() {
+    const tab = normalize(session.currentState.activeTab);
+    if (tab === 'youtube') return 'Page vidéo avec recommandations et barre de recherche.';
+    if (tab === 'gmail') return 'Boîte de réception Gmail ouverte, prête à être consultée.';
+    return 'Page d’accueil du moteur de recherche avec champ de saisie centré.';
+  }
+
+  function buildEmailContent() {
+    const wrap = document.createElement('div');
+    wrap.className = 'fw-email-layout';
+    wrap.innerHTML = `
+      <div class="fw-email-card">
+        <h3>Messagerie</h3>
+        <p>Boîte de réception professionnelle. Cliquez dans cette fenêtre pour la mettre au premier plan.</p>
+      </div>
+      <div class="fw-email-item">
+        <strong>Direction</strong>
+        <p>Réunion déplacée à 14h30.</p>
+      </div>
+      <div class="fw-email-item">
+        <strong>Support informatique</strong>
+        <p>Mise à jour du navigateur prévue ce soir.</p>
+      </div>
+    `;
+    return wrap;
+  }
+
+  function buildAdContent() {
+    const wrap = document.createElement('div');
+    wrap.className = 'fw-ad-card';
+    wrap.innerHTML = `
+      <strong>Offre spéciale</strong>
+      <p>Cette fenêtre parasite interrompt la navigation. Fermez-la pour revenir à votre tâche.</p>
+    `;
+    return wrap;
   }
 
   function renderTaskbar() {
@@ -481,7 +593,10 @@
       btn.className = 'fw-task';
 
       const minimized = isMinimized(id);
+      const active = session.currentState.activeWindow === id && !minimized;
       btn.textContent = `${meta.icon || '🗔'} ${meta.title || id}${minimized ? ' (réduite)' : ''}`;
+      if (minimized) btn.classList.add('is-minimized');
+      if (active) btn.classList.add('is-active');
       btn.addEventListener('click', () => {
         const type = minimized ? 'restore' : 'focus';
         handleAction({ type, target: id });
@@ -502,7 +617,29 @@
       dom.desktop.appendChild(el);
     });
 
+    updateSceneSummary();
     renderTaskbar();
+  }
+
+  function updateSceneSummary() {
+    const active = session.currentState && session.currentState.activeWindow;
+    const openCount = session.currentState ? session.currentState.open.length : 0;
+    const visibleCount = session.currentState
+      ? session.currentState.open.filter((id) => !isMinimized(id)).length
+      : 0;
+    const activeTitle = active ? windowTitle(active) : 'Aucune fenêtre active';
+
+    if (dom.activeWindow) {
+      dom.activeWindow.textContent = active ? `Fenêtre active : ${activeTitle}` : 'Aucune fenêtre active';
+    }
+    if (dom.sceneState) {
+      dom.sceneState.textContent = `${visibleCount} visible${visibleCount > 1 ? 's' : ''}`;
+    }
+    if (dom.sceneNote) {
+      dom.sceneNote.textContent = openCount
+        ? `${activeTitle}. ${visibleCount} fenêtre(s) visible(s) sur ${openCount} ouverte(s). Utilisez la barre des tâches pour restaurer une fenêtre réduite.`
+        : 'Aucune fenêtre n’est ouverte. Commencez par utiliser un lanceur dans la barre du bas.';
+    }
   }
 
   function getActiveWindowId() {
@@ -648,6 +785,11 @@
     dom.instruction = document.getElementById('fw-instruction');
     dom.progress = document.getElementById('fw-progress');
     dom.feedback = document.getElementById('fw-feedback');
+    dom.goalAction = document.getElementById('fw-goal-action');
+    dom.goalTarget = document.getElementById('fw-goal-target');
+    dom.sceneState = document.getElementById('fw-scene-state');
+    dom.sceneNote = document.getElementById('fw-scene-note');
+    dom.activeWindow = document.getElementById('fw-active-window');
     dom.done = document.getElementById('fw-done');
     dom.errors = document.getElementById('fw-errors');
     dom.xp = document.getElementById('fw-xp');

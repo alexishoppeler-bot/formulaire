@@ -179,6 +179,22 @@
     startTime: 0,
     totalTime: 0
   };
+  let autoAdvanceTimer = null;
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  }
+
+  function scheduleAutoAdvance(callback, delay = 1400) {
+    clearAutoAdvance();
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      callback();
+    }, delay);
+  }
 
   let xpRulesShown = false;
 
@@ -213,6 +229,7 @@
 
   /* ===== INIT SESSION ===== */
   function startSession() {
+    clearAutoAdvance();
     if (!ROUNDS) {
       showToast('Aucun mot disponible dans les données.', 'error');
       return;
@@ -245,6 +262,7 @@
 
   /* ===== CHARGER UN MOT ===== */
   function loadRound() {
+    clearAutoAdvance();
     session.hintUsed = false;
     session.answered = false;
     answerTiles = [];
@@ -347,9 +365,6 @@
     session.typed++;
     session.answered = true;
     document.getElementById('btnValidate').disabled = true;
-    document.getElementById('btnSkip').style.display = 'inline-flex';
-    document.getElementById('btnSkip').textContent = session.index < ROUNDS - 1 ? 'Suivant →' : 'Terminer';
-
     const correct = answer === entry.word;
 
     // Animer les tuiles réponse
@@ -384,6 +399,7 @@
 
     updateKPIs();
     updateProgressUI(session.index + 1, ROUNDS);
+    scheduleAutoAdvance(nextRound);
   }
 
   /* ===== SUIVANT / TERMINER ===== */
@@ -399,6 +415,7 @@
 
   /* ===== FIN DE SESSION ===== */
   function finishSession() {
+    clearAutoAdvance();
     promoteExerciseStatus(PAGE_ID, 'completed');
 
     document.getElementById('gameZone').classList.add('hidden');
@@ -454,7 +471,6 @@
     // Raccourci clavier : Entrée pour valider
     document.addEventListener('keydown', e => {
       if (e.key === 'Enter' && !session.answered) validate();
-      if (e.key === 'Enter' && session.answered) nextRound();
       if (e.key === 'Escape') eraseAll();
     });
 

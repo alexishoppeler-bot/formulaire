@@ -54,19 +54,37 @@
                 <div class="form-fields" id="formFields"></div>
 
                 <div class="form-section-divider"></div>
-                <h3 class="form-section-title">Pièces jointes (📎)</h3>
-                <p class="form-section-hint" id="requiredFilesHint"></p>
+                <h3 class="form-section-title">Dossier de candidature</h3>
+                <p class="form-section-hint" id="documentTaskHint"></p>
 
-                <div class="file-upload-zone" id="fileDropZone">
-                  <div class="file-upload-content">
-                    <div class="file-upload-icon">📁</div>
-                    <p class="file-upload-text">Glissez-déposez vos fichiers ici</p>
-                    <p class="file-upload-subtext">ou cliquez pour parcourir</p>
+                <section class="attach-window" aria-labelledby="documentExplorerTitle">
+                  <div class="attach-window-top">
+                    <div class="attach-window-brand">
+                      <span class="attach-window-appicon" aria-hidden="true">📎</span>
+                      <div class="attach-window-title" id="documentExplorerTitle">Joindre un fichier</div>
+                    </div>
+                    <div class="attach-window-controls" aria-hidden="true">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
                   </div>
-                  <input type="file" id="fileInput" class="file-input-hidden" multiple accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png">
-                </div>
-
-                <div class="uploaded-files-list" id="uploadedFilesList"></div>
+                  <div class="attach-window-body">
+                    <div class="attach-main">
+                      <div class="attach-list-head">
+                        <span>Nom</span>
+                        <span>Type</span>
+                        <span>Date</span>
+                      </div>
+                      <div class="attach-list hidden" id="documentsGrid"></div>
+                      <div class="attach-empty hidden" id="attachEmptyState">Aucun élément dans cet emplacement.</div>
+                    </div>
+                  </div>
+                  <div class="attach-footer">
+                    <div class="attach-selected" id="selectedDocumentLabel">Aucun fichier sélectionné</div>
+                    <button class="btn btn-primary btn-sm" id="openSelectedDoc" type="button">Ouvrir le fichier</button>
+                  </div>
+                </section>
               </article>
             </div>
 

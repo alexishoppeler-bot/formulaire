@@ -147,6 +147,22 @@
     // drag state
     dragSrc:   null,
   };
+  let autoAdvanceTimer = null;
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  }
+
+  function scheduleAutoAdvance(callback, delay = 1700) {
+    clearAutoAdvance();
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      callback();
+    }, delay);
+  }
 
   let xpRulesShown = false;
 
@@ -166,6 +182,7 @@
 
   /* ===== INIT ===== */
   function startSession() {
+    clearAutoAdvance();
     session.questions = shuffle(QUESTIONS);
     session.index     = 0;
     session.correct   = 0;
@@ -189,6 +206,7 @@
 
   /* ===== CHARGER UNE QUESTION ===== */
   function loadRound() {
+    clearAutoAdvance();
     session.answered = false;
     session.dragSrc  = null;
 
@@ -351,10 +369,6 @@
 
     document.getElementById('btnValidate').style.display = 'none';
     document.getElementById('btnReset').disabled         = true;
-    document.getElementById('btnNext').style.display     = 'inline-flex';
-    document.getElementById('btnNext').textContent       =
-      session.index < TOTAL - 1 ? 'Suivant →' : 'Terminer';
-
     // Colorer les items
     [...list.children].forEach((item, i) => {
       if (item.dataset.text === q.items[i]) {
@@ -391,6 +405,7 @@
     }
 
     updateKPIs();
+    scheduleAutoAdvance(nextRound);
   }
 
   /* ===== SUIVANT ===== */
@@ -405,6 +420,7 @@
 
   /* ===== FIN ===== */
   function finishSession() {
+    clearAutoAdvance();
     promoteExerciseStatus(PAGE_ID, 'completed');
 
     // Progress bar 100%
@@ -455,7 +471,6 @@
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Enter' && !session.answered) validate();
-      else if (e.key === 'Enter' && session.answered) nextRound();
     });
 
     startSession();

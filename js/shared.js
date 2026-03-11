@@ -7,26 +7,14 @@
   }
 
   function sectionedLinks() {
-    const excludedFromExercises = new Set([
-      'cours-protection-donnees',
-      'cours-vocabulaire-pro',
-      'cours-joindre-fichiers',
-      'cours-revision-semaine'
-    ]);
-
     return [
       {
         title: 'Général',
         links: ['accueil', 'evaluations', 'regles', 'donnees']
       },
       {
-        title: 'Cours',
-        links: ['cours-protection-donnees', 'cours-vocabulaire-pro', 'cours-joindre-fichiers', 'cours-revision-semaine']
-      },
-      {
         title: 'Exercices',
         links: ((window.EXERCISE_CONFIG && window.EXERCISE_CONFIG.orderedPages) || [])
-          .filter((page) => !excludedFromExercises.has(page))
       }
     ];
   }

@@ -117,26 +117,6 @@ const EXERCISE_COACH_TIPS = {
     'Joue méthodiquement de gauche à droite.',
     'Privilégie la mémoire visuelle plutôt que le hasard.'
   ],
-  'cours-protection-donnees': [
-    'Retiens la règle clé de la section avant de passer à la suite.',
-    'Associe chaque règle à un exemple concret du quotidien.',
-    'Reformule la règle avec tes mots pour la mémoriser.'
-  ],
-  'cours-vocabulaire-pro': [
-    'Note les mots nouveaux et leur définition simple.',
-    'Réutilise chaque terme dans une phrase courte.',
-    'Vérifie les faux amis et les mots proches.'
-  ],
-  'cours-joindre-fichiers': [
-    'Vérifie le bon document avant de le joindre.',
-    'Contrôle le nom du fichier et son format.',
-    'Ajoute une mention de pièce jointe dans le message.'
-  ],
-  'cours-revision-semaine': [
-    'Reprends les notions une par une.',
-    'Commence par ce qui te pose le plus de difficultés.',
-    'Fais une mini-synthèse en fin de session.'
-  ],
   accueil: [
     'Choisis un exercice clair plutôt que de sauter entre plusieurs jeux.',
     'Fixe-toi un objectif simple pour la session (précision ou vitesse).',
@@ -189,11 +169,6 @@ const EXERCISE_COACH_TIPS_BY_CATEGORY = {
     'Vérifie chaque champ sensible (mail, téléphone, date).',
     'Reste cohérent entre toutes les informations saisies.',
     'Corrige les erreurs une à une avant de soumettre.'
-  ],
-  Cours: [
-    'Retiens une idée clé à la fois.',
-    'Associe la règle à un exemple concret.',
-    'Fais une mini-récapitulation en fin d\'activité.'
   ],
   Suivi: [
     'Regarde la tendance avant la valeur brute.',

@@ -309,14 +309,14 @@
 
   function restoreNode(nodeId) {
     const recycle = getRecycleFolder();
-    if (!recycle || !recycle.children) return false;
-    if (nodeId === recycle.id) return false;
+    if (!recycle || !recycle.children) return null;
+    if (nodeId === recycle.id) return null;
     const targetFound = findNodeById(nodeId);
-    if (!targetFound || !targetFound.parent) return false;
-    if (!isDescendant(recycle.id, nodeId)) return false;
+    if (!targetFound || !targetFound.parent) return null;
+    if (!isDescendant(recycle.id, nodeId)) return null;
 
     const pulled = removeFromParent(nodeId);
-    if (!pulled) return false;
+    if (!pulled) return null;
     const node = pulled.removed;
 
     let targetParent = null;
@@ -339,7 +339,11 @@
     targetParent.children = targetParent.children || [];
     targetParent.children.push(node);
     saveState();
-    return true;
+    return {
+      nodeId: node.id,
+      targetParentId: targetParent.id,
+      targetPath: buildPathById(targetParent.id)
+    };
   }
 
   function emptyRecycleBin() {
@@ -986,12 +990,23 @@
         return;
       }
       let restored = 0;
+      let lastRestore = null;
       [...selectedIds].forEach((id) => {
-        if (restoreNode(id)) restored += 1;
+        const result = restoreNode(id);
+        if (result) {
+          restored += 1;
+          lastRestore = result;
+        }
       });
       selectedIds = new Set();
       if (restored > 0) {
-        showFeedback('ok', 'Restauration effectuee.');
+        if (lastRestore && lastRestore.targetParentId) {
+          selectedFolderId = lastRestore.targetParentId;
+        }
+        const restoredLabel = lastRestore && lastRestore.targetPath && lastRestore.targetPath.length
+          ? ' vers ' + pathText(lastRestore.targetPath)
+          : '';
+        showFeedback('ok', 'Restauration effectuee' + restoredLabel + '.');
         closeContextMenu();
         renderAll();
         tryValidateCurrentMission();
@@ -1199,4 +1214,3 @@
     showFeedback('ok', 'Mission en cours. Suivez les consignes en haut.');
   });
 })();
-

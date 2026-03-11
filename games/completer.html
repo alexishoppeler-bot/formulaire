@@ -134,6 +134,22 @@
     selectedChoice: null,
     roundState: null, // { index, choiceOrder, selectedChoice, answered, hintUsed, wasCorrect }
   };
+  let autoAdvanceTimer = null;
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  }
+
+  function scheduleAutoAdvance(callback, delay = 1500) {
+    clearAutoAdvance();
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      callback();
+    }, delay);
+  }
 
   let xpRulesShown = false;
 
@@ -205,6 +221,7 @@
 
   /* ===== INIT ===== */
   function startSession() {
+    clearAutoAdvance();
     if (!QUESTIONS.length) {
       showToast('Aucune donnée trouvée pour Compléter.', 'error');
       return;
@@ -234,6 +251,7 @@
 
   /* ===== CHARGER UNE QUESTION ===== */
   function loadRound() {
+    clearAutoAdvance();
     const restoreState = session.roundState && session.roundState.index === session.index
       ? session.roundState
       : null;
@@ -358,10 +376,6 @@
 
     document.getElementById('btnValidate').style.display = 'none';
     document.getElementById('btnHint').disabled          = true;
-    document.getElementById('btnNext').style.display     = 'inline-flex';
-    document.getElementById('btnNext').textContent       =
-      session.index < TOTAL - 1 ? 'Suivant ?' : 'Terminer';
-
     const fb = document.getElementById('feedbackMsg');
 
     if (isOk) {
@@ -384,6 +398,8 @@
       const ph = document.getElementById('blank-placeholder-0');
       if (ph) ph.style.color = 'var(--danger)';
     }
+
+    scheduleAutoAdvance(nextRound);
   }
 
   /* ===== SÉLECTIONNER UN CHOIX (QCM) ===== */
@@ -417,10 +433,6 @@
 
     document.getElementById('btnValidate').style.display = 'none';
     document.getElementById('btnHint').disabled          = true;
-    document.getElementById('btnNext').style.display     = 'inline-flex';
-    document.getElementById('btnNext').textContent       =
-      session.index < TOTAL - 1 ? 'Suivant ?' : 'Terminer';
-
     const fb = document.getElementById('feedbackMsg');
 
     if (isOk) {
@@ -460,6 +472,7 @@
       session.roundState.wasCorrect = isOk;
     }
     saveAutoSave();
+    scheduleAutoAdvance(nextRound);
   }
 
   /* ===== INDICE ===== */
@@ -491,6 +504,7 @@
 
   /* ===== FIN ===== */
   function finishSession() {
+    clearAutoAdvance();
     promoteExerciseStatus(PAGE_ID, 'completed');
     clearAutoSave();
     document.getElementById('progressFill').style.width = '100%';
@@ -529,7 +543,7 @@
     }
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && session.answered) nextRound();
+      if (e.key === 'Enter' && !session.answered) validate();
     });
 
     const restored = tryRestoreAutoSave();

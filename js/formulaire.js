@@ -12,8 +12,73 @@ let session = {
   xp: 0,
   answered: false,
   hintsUsed: 0,
-  uploadedFiles: {}
+  openedDocuments: {},
+  folderOpened: {},
+  selectedDocument: {},
+  currentLocation: {}
 };
+let autoAdvanceTimer = null;
+
+function clearAutoAdvance() {
+  if (autoAdvanceTimer) {
+    clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer = null;
+  }
+}
+
+function scheduleAutoAdvance(callback, delay = 1800) {
+  clearAutoAdvance();
+  autoAdvanceTimer = setTimeout(() => {
+    autoAdvanceTimer = null;
+    callback();
+  }, delay);
+}
+
+const REQUIRED_DOCUMENTS = [
+  { key: 'cv', name: 'CV.pdf', label: 'CV' },
+  { key: 'lm', name: 'LM.pdf', label: 'Lettre de motivation' },
+  { key: 'certificats', name: 'Certificats de travail.pdf', label: 'Certificats de travail' }
+];
+
+const ATTACH_LOCATIONS = {
+  quick: {
+    path: 'Accès rapide',
+    items: [
+      { kind: 'folder', key: 'documents', name: 'Documents', type: 'Dossier', date: 'Aujourd’hui' },
+      { kind: 'folder', key: 'downloads', name: 'Téléchargements', type: 'Dossier', date: 'Aujourd’hui' },
+      { kind: 'folder', key: 'desktop', name: 'Bureau', type: 'Dossier', date: 'Aujourd’hui' }
+    ]
+  },
+  desktop: {
+    path: 'Ce PC > Bureau',
+    items: []
+  },
+  downloads: {
+    path: 'Ce PC > Téléchargements',
+    items: []
+  },
+  documents: {
+    path: 'Ce PC > Documents',
+    items: [
+      { kind: 'folder', key: 'candidature', name: 'Dossier de candidature', type: 'Dossier', date: 'Aujourd’hui' }
+    ]
+  },
+  candidature: {
+    path: 'Ce PC > Documents > Dossier de candidature',
+    items: REQUIRED_DOCUMENTS.map((doc) => ({
+      kind: 'file',
+      key: doc.key,
+      name: doc.name,
+      type: 'Document PDF',
+      date: 'Aujourd’hui'
+    }))
+  }
+};
+
+function countOpenedDocuments(index) {
+  const opened = session.openedDocuments[index] || {};
+  return REQUIRED_DOCUMENTS.filter((doc) => opened[doc.key]).length;
+}
 
 function shuffle(arr) {
   const copy = [...arr];
@@ -159,93 +224,78 @@ function profileRows(round) {
   ].filter(([, value]) => String(value).trim() !== '');
 }
 
-function getFileIcon(filename) {
-  const ext = filename.split('.').pop().toLowerCase();
-  const iconMap = {
-    pdf: '📄',
-    doc: '📋',
-    docx: '📋',
-    jpg: '🖼️',
-    jpeg: '🖼️',
-    png: '🖼️',
-    txt: '📝'
+function renderDocumentExplorer() {
+  const grid = document.getElementById('documentsGrid');
+  const hint = document.getElementById('documentTaskHint');
+  const selectedLabel = document.getElementById('selectedDocumentLabel');
+  const openSelectedBtn = document.getElementById('openSelectedDoc');
+  const empty = document.getElementById('attachEmptyState');
+  if (!grid || !hint || !selectedLabel || !openSelectedBtn || !empty) return;
+
+  const opened = session.openedDocuments[session.index] || {};
+  const currentLocation = session.currentLocation[session.index] || 'quick';
+  const selectedKey = session.selectedDocument[session.index] || '';
+  const openedCount = countOpenedDocuments(session.index);
+  const locationData = ATTACH_LOCATIONS[currentLocation] || ATTACH_LOCATIONS.quick;
+  const visibleItems = locationData.items;
+  const selectedDoc = REQUIRED_DOCUMENTS.find((doc) => doc.key === selectedKey) || null;
+
+  hint.textContent = `Ouvrez les 3 documents du dossier avant de valider (${openedCount}/3 ouverts).`;
+  grid.classList.remove('hidden');
+  empty.classList.toggle('hidden', visibleItems.length > 0);
+  selectedLabel.textContent = selectedDoc ? selectedDoc.name : 'Aucun fichier sélectionné';
+  openSelectedBtn.disabled = currentLocation !== 'candidature' || !selectedDoc;
+  openSelectedBtn.onclick = () => {
+    if (currentLocation === 'candidature' && selectedDoc) openDocument(selectedDoc.key);
   };
-  return iconMap[ext] || '📎';
-}
 
-function renderUploadedFiles() {
-  const round = session.items[session.index];
-  if (!round || !round.requiredFiles) return;
+  grid.innerHTML = visibleItems.map((item) => {
+    const isOpened = item.kind === 'file' && Boolean(opened[item.key]);
+    const isSelected = selectedKey === item.key;
+    const icon = item.kind === 'folder' ? '📁' : '📄';
+    return `
+      <button class="attach-row ${isOpened ? 'opened' : ''} ${isSelected ? 'selected' : ''}" type="button" data-item-kind="${item.kind}" data-item-key="${item.key}">
+        <span class="attach-row-name"><span class="attach-row-icon">${icon}</span>${escapeHTML(item.name)}</span>
+        <span class="attach-row-type">${escapeHTML(item.type)}</span>
+        <span class="attach-row-date">${isOpened ? 'Ouvert' : escapeHTML(item.date)}</span>
+      </button>
+    `;
+  }).join('');
 
-  const filesList = document.getElementById('uploadedFilesList');
-  const sessionFiles = session.uploadedFiles[session.index] || [];
-
-  if (sessionFiles.length === 0) {
-    filesList.innerHTML = '';
-    return;
-  }
-
-  filesList.innerHTML = sessionFiles.map((file, idx) => `
-    <div class="file-item ${file.error ? 'error' : ''}">
-      <div class="file-item-name">
-        <span class="file-item-icon">${getFileIcon(file.name)}</span>
-        <span>${escapeHTML(file.name)}</span>
-      </div>
-      <span class="file-item-status">${file.error ? '⚠️ ' + file.error : '✓'}</span>
-      <button class="file-item-remove" type="button" data-index="${idx}">×</button>
-    </div>
-  `).join('');
-
-  filesList.querySelectorAll('.file-item-remove').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const idx = parseInt(e.target.dataset.index);
-      sessionFiles.splice(idx, 1);
-      renderUploadedFiles();
+  grid.querySelectorAll('[data-item-key]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.itemKey;
+      const kind = btn.dataset.itemKind;
+      session.selectedDocument[session.index] = kind === 'file' ? key : '';
+      renderDocumentExplorer();
+    });
+    btn.addEventListener('dblclick', () => {
+      const key = btn.dataset.itemKey;
+      const kind = btn.dataset.itemKind;
+      if (kind === 'folder') {
+        session.currentLocation[session.index] = key;
+        session.selectedDocument[session.index] = '';
+        renderDocumentExplorer();
+      } else {
+        openDocument(key);
+      }
     });
   });
 }
 
-function isValidFileFormat(filename, allowedFormats) {
-  const ext = filename.split('.').pop().toLowerCase();
-  return allowedFormats.includes(ext);
-}
+function openDocument(docKey) {
+  const doc = REQUIRED_DOCUMENTS.find((item) => item.key === docKey);
+  if (!doc) return;
 
-function handleFilesUpload(files) {
-  const round = session.items[session.index];
-  if (!round || !round.requiredFiles) return;
+  session.openedDocuments[session.index] = session.openedDocuments[session.index] || {};
+  session.openedDocuments[session.index][doc.key] = true;
+  session.selectedDocument[session.index] = doc.key;
 
-  const maxFileSize = 5 * 1024 * 1024; // 5MB
-  const sessionFiles = session.uploadedFiles[session.index] || [];
-
-  Array.from(files).forEach(file => {
-    if (file.size > maxFileSize) {
-      showToast(`Fichier trop volumineux: ${file.name} (max 5MB)`, 'error');
-      return;
-    }
-
-    const fileObj = { name: file.name, error: null };
-
-    // Validate file format against all required files
-    let isValid = false;
-    for (const reqFile of round.requiredFiles) {
-      if (isValidFileFormat(file.name, reqFile.formats)) {
-        isValid = true;
-        break;
-      }
-    }
-
-    if (!isValid) {
-      fileObj.error = 'Format non accepté';
-    }
-
-    sessionFiles.push(fileObj);
-  });
-
-  session.uploadedFiles[session.index] = sessionFiles;
-  renderUploadedFiles();
+  renderDocumentExplorer();
 }
 
 function startSession() {
+  clearAutoAdvance();
   if (!CASES.length) {
     showToast('Aucun profil disponible.', 'error');
     return;
@@ -260,7 +310,10 @@ function startSession() {
     xp: 0,
     answered: false,
     hintsUsed: 0,
-    uploadedFiles: {}
+    openedDocuments: {},
+    folderOpened: {},
+    selectedDocument: {},
+    currentLocation: {}
   };
 
   const resultZone = document.getElementById('resultZone');
@@ -272,6 +325,7 @@ function startSession() {
 }
 
 function renderRound() {
+  clearAutoAdvance();
   const round = session.items[session.index];
   if (!round) return;
 
@@ -332,20 +386,12 @@ function renderRound() {
 
   const btnNext = document.getElementById('btnNext');
   btnNext.style.display = 'none';
-  btnNext.textContent = session.index < session.items.length - 1 ? 'Suivant' : 'Terminer';
 
-  // Setup required files section
-  const requiredFiles = (round && round.requiredFiles) || [];
-  const requiredHint = document.getElementById('requiredFilesHint');
-  if (requiredFiles.length > 0) {
-    const required = requiredFiles.filter(f => f.required).length;
-    const total = requiredFiles.length;
-    requiredHint.textContent = `Vous devez joindre ${required}/${total} fichiers: ${requiredFiles.map(f => f.label).join(', ')}`;
-  }
-
-  // Reset uploaded files display
-  session.uploadedFiles[session.index] = session.uploadedFiles[session.index] || [];
-  renderUploadedFiles();
+  session.openedDocuments[session.index] = session.openedDocuments[session.index] || {};
+  session.folderOpened[session.index] = session.folderOpened[session.index] || false;
+  session.selectedDocument[session.index] = session.selectedDocument[session.index] || '';
+  session.currentLocation[session.index] = session.currentLocation[session.index] || 'quick';
+  renderDocumentExplorer();
 
   const progress = Math.round((session.index / session.items.length) * 100);
   document.getElementById('progressFill').style.width = `${progress}%`;
@@ -358,25 +404,10 @@ function validateRound() {
   const round = session.items[session.index];
   if (!round) return;
 
-  // Check required files first - validation stricte
-  const requiredFiles = (round.requiredFiles) || [];
-  const uploadedFiles = session.uploadedFiles[session.index] || [];
-  const requiredCount = requiredFiles.filter(f => f.required).length;
-  const validFiles = uploadedFiles.filter(f => !f.error).length;
-
-  if (requiredCount > validFiles) {
-    const missing = requiredCount - validFiles;
-    const msg = missing === 1
-      ? `Veuillez joindre ${missing} fichier obligatoire.`
-      : `Veuillez joindre ${missing} fichiers obligatoires.`;
-    showToast(msg, 'error');
-    return;
-  }
-
-  // Vérifier qu'il n'y a pas d'erreurs de format
-  const hasErrors = uploadedFiles.some(f => f.error);
-  if (hasErrors) {
-    showToast('Veuillez corriger les fichiers en erreur avant de valider.', 'error');
+  const opened = session.openedDocuments[session.index] || {};
+  const openedCount = countOpenedDocuments(session.index);
+  if (openedCount < REQUIRED_DOCUMENTS.length) {
+    showToast('Ouvrez d’abord CV.pdf, LM.pdf et Certificats de travail.pdf.', 'error');
     return;
   }
 
@@ -386,6 +417,16 @@ function validateRound() {
   let okCount = 0;
   let wrongCount = 0;
   const messages = [];
+
+  REQUIRED_DOCUMENTS.forEach((doc) => {
+    if (opened[doc.key]) {
+      okCount += 1;
+      messages.push(`<div class="feedback-item success">✓ ${escapeHTML(doc.name)} ouvert.</div>`);
+    } else {
+      wrongCount += 1;
+      messages.push(`<div class="feedback-item error">✗ ${escapeHTML(doc.name)} non ouvert.</div>`);
+    }
+  });
 
   fields.forEach((field) => {
     const input = document.getElementById(`field-${field.name}`);
@@ -416,7 +457,7 @@ function validateRound() {
   session.typed += 1;
 
   const isRoundCorrect = wrongCount === 0;
-  const baseXP = 3;
+  const baseXP = 6;
   const bonusMultiplier = 1 + (0.5 * (1 - session.hintsUsed / Math.max(1, okCount + wrongCount)));
   const awardedXP = isRoundCorrect
     ? Math.round(baseXP * bonusMultiplier)
@@ -437,22 +478,20 @@ function validateRound() {
 
   if (isRoundCorrect) {
     const hintPenalty = session.hintsUsed > 0 ? ` (${session.hintsUsed} indice${session.hintsUsed > 1 ? 's' : ''} utilisé${session.hintsUsed > 1 ? 's' : ''})` : '';
-    summary = `<div class="feedback-item success">✨ Parfait! Formulaire valide.${hintPenalty}</div>`;
+    summary = `<div class="feedback-item success">✨ Parfait! Dossier ouvert et formulaire valide.${hintPenalty} +${awardedXP} XP.</div>`;
   } else {
-    const errorRate = Math.round((wrongCount / fields.length) * 100);
-    summary = `<div class="feedback-item error">⚠️ ${wrongCount} erreur${wrongCount > 1 ? 's' : ''} détectée${wrongCount > 1 ? 's' : ''} (${errorRate}% du formulaire).</div>`;
+    const totalChecks = fields.length + REQUIRED_DOCUMENTS.length;
+    const errorRate = Math.round((wrongCount / totalChecks) * 100);
+    summary = `<div class="feedback-item error">⚠️ ${wrongCount} erreur${wrongCount > 1 ? 's' : ''} détectée${wrongCount > 1 ? 's' : ''} sur le dossier et le formulaire (${errorRate}%). +${awardedXP} XP.</div>`;
   }
 
   feedback.innerHTML = summary + messages.join('');
 
   const btnValidate = document.getElementById('btnValidate');
-  const btnNext = document.getElementById('btnNext');
-
   btnValidate.disabled = true;
-  btnNext.style.display = 'inline-flex';
-  btnNext.textContent = session.index < session.items.length - 1 ? 'Suivant' : 'Terminer';
 
   updateKPIs();
+  scheduleAutoAdvance(nextRound);
 }
 
 function showHint() {
@@ -502,6 +541,7 @@ function nextRound() {
 }
 
 function finishSession() {
+  clearAutoAdvance();
   promoteExerciseStatus(PAGE_ID, 'completed');
 
   const gameZone = document.getElementById('gameZone');
@@ -544,41 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnNextEx.style.display = 'none';
   }
 
-  // File upload handlers
-  const fileDropZone = document.getElementById('fileDropZone');
-  const fileInput = document.getElementById('fileInput');
-
-  if (fileDropZone && fileInput) {
-    fileDropZone.addEventListener('click', () => fileInput.click());
-
-    fileDropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      fileDropZone.classList.add('dragover');
-    });
-
-    fileDropZone.addEventListener('dragleave', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      fileDropZone.classList.remove('dragover');
-    });
-
-    fileDropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      fileDropZone.classList.remove('dragover');
-      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        handleFilesUpload(e.dataTransfer.files);
-      }
-    });
-
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files && e.target.files.length > 0) {
-        handleFilesUpload(e.target.files);
-      }
-    });
-  }
-
   document.getElementById('btnHint').addEventListener('click', showHint);
   document.getElementById('btnValidate').addEventListener('click', validateRound);
   document.getElementById('btnNext').addEventListener('click', nextRound);
@@ -596,7 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
     if (event.key.toLowerCase() === 'h') showHint();
-    if (event.key === 'Enter' && session.answered) nextRound();
   });
 
   startSession();

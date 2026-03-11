@@ -97,7 +97,7 @@
             </div>
 
             <div class="key-hint">
-              Raccourcis : <kbd>O</kbd> = Oui &nbsp;|&nbsp; <kbd>N</kbd> = Non &nbsp;|&nbsp; <kbd>Entrée</kbd> = Suivant
+              Raccourcis : <kbd>O</kbd> = Oui &nbsp;|&nbsp; <kbd>N</kbd> = Non
             </div>
 
             <div style="margin-top:16px;">
@@ -180,6 +180,22 @@
     typed:     0,
     answered:  false,
   };
+  let autoAdvanceTimer = null;
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  }
+
+  function scheduleAutoAdvance(callback, delay = 1300) {
+    clearAutoAdvance();
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      callback();
+    }, delay);
+  }
 
   let xpRulesShown = false;
 
@@ -195,6 +211,7 @@
 
   /* ===== INIT ===== */
   function startSession() {
+    clearAutoAdvance();
     session.questions = shuffle(QUESTIONS);
     session.index     = 0;
     session.correct   = 0;
@@ -218,6 +235,7 @@
 
   /* ===== CHARGER UNE QUESTION ===== */
   function loadRound() {
+    clearAutoAdvance();
     session.answered = false;
     const q = session.questions[session.index];
 
@@ -265,10 +283,6 @@
 
     document.getElementById('btnOui').disabled = true;
     document.getElementById('btnNon').disabled = true;
-    document.getElementById('btnNext').style.display = 'inline-flex';
-    document.getElementById('btnNext').textContent   =
-      session.index < TOTAL - 1 ? 'Suivant →' : 'Terminer';
-
     const fb  = document.getElementById('feedbackMsg');
     const c1  = document.getElementById('card1');
     const c2  = document.getElementById('card2');
@@ -311,6 +325,7 @@
     }
 
     updateKPIs();
+    scheduleAutoAdvance(nextRound);
   }
 
   /* ===== SUIVANT ===== */
@@ -325,6 +340,7 @@
 
   /* ===== FIN ===== */
   function finishSession() {
+    clearAutoAdvance();
     promoteExerciseStatus(PAGE_ID, 'completed');
     document.getElementById('progressFill').style.width = '100%';
     document.getElementById('gameZone').classList.add('hidden');
@@ -371,7 +387,6 @@
       const key = e.key.toLowerCase();
       if (key === 'o' && !session.answered) answer(true);
       else if (key === 'n' && !session.answered) answer(false);
-      else if (key === 'enter' && session.answered) nextRound();
     });
 
     startSession();

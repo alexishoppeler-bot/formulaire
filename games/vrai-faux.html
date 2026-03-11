@@ -92,7 +92,7 @@
             </div>
 
             <div class="key-hint">
-              Raccourcis : <kbd>V</kbd> = Vrai &nbsp;|&nbsp; <kbd>F</kbd> = Faux &nbsp;|&nbsp; <kbd>Entrée</kbd> = Suivant
+              Raccourcis : <kbd>V</kbd> = Vrai &nbsp;|&nbsp; <kbd>F</kbd> = Faux
             </div>
 
           </div>
@@ -166,6 +166,22 @@
     history:     [],  // 'ok' | 'err' | 'skip' pour chaque question
     wrongOnes:   [],  // questions ratées pour récap
   };
+  let autoAdvanceTimer = null;
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  }
+
+  function scheduleAutoAdvance(callback, delay = 1300) {
+    clearAutoAdvance();
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      callback();
+    }, delay);
+  }
 
   let xpRulesShown = false;
 
@@ -194,6 +210,7 @@
 
   /* ===== INIT ===== */
   function startSession() {
+    clearAutoAdvance();
     if (!Q_PER_SESSION) {
       showToast('Aucune question disponible dans les données.', 'error');
       return;
@@ -233,6 +250,7 @@
 
   /* ===== CHARGER UNE QUESTION ===== */
   function loadQuestion() {
+    clearAutoAdvance();
     session.answered = false;
 
     const q = session.questions[session.index];
@@ -317,9 +335,7 @@
   }
 
   function showNextBtn() {
-    const btn = document.getElementById('btnNext');
-    btn.style.display = 'inline-flex';
-    btn.textContent   = session.index < session.questions.length - 1 ? 'Suivant' : 'Terminer';
+    scheduleAutoAdvance(nextQuestion);
   }
 
   /* ===== STREAK BAR ===== */
@@ -346,6 +362,7 @@
 
   /* ===== FIN ===== */
   function finishSession() {
+    clearAutoAdvance();
     promoteExerciseStatus(PAGE_ID, 'completed');
 
     document.getElementById('progressFill').style.width = '100%';
@@ -429,7 +446,6 @@
       const key = e.key.toLowerCase();
       if ((key === 'v' || key === 'ArrowLeft') && !session.answered) answer(true);
       else if ((key === 'f' || key === 'ArrowRight') && !session.answered) answer(false);
-      else if (key === 'enter' && session.answered) nextQuestion();
     });
 
     startSession();

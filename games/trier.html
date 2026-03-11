@@ -141,6 +141,22 @@
     dragItem: null,
     dragOrigin: null, // 'bank' | groupIdx
   };
+  let autoAdvanceTimer = null;
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  }
+
+  function scheduleAutoAdvance(callback, delay = 1700) {
+    clearAutoAdvance();
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      callback();
+    }, delay);
+  }
 
   let xpRulesShown = false;
 
@@ -160,6 +176,7 @@
 
   /* ===== INIT ===== */
   function startSession() {
+    clearAutoAdvance();
     session.seriesIdx = 0;
     session.correct   = 0;
     session.errors    = 0;
@@ -181,6 +198,7 @@
 
   /* ===== CHARGER UNE SÉRIE ===== */
   function loadRound() {
+    clearAutoAdvance();
     session.answered = false;
     session.placed   = {};
     session.dragItem = null;
@@ -402,15 +420,12 @@
 
     document.getElementById('btnValidate').style.display = 'none';
     document.getElementById('btnReset').disabled         = true;
-    document.getElementById('btnNext').style.display     = 'inline-flex';
-    document.getElementById('btnNext').textContent       =
-      session.seriesIdx < SERIES.length - 1 ? 'Série suivante →' : 'Terminer';
-
     // Bloquer les drags
     document.querySelectorAll('.sort-chip').forEach(c => { c.draggable = false; });
 
     updateKPIs();
     showToast(roundErrors === 0 ? 'Parfait ! +' + xp + ' XP' : roundCorrect + '/' + total + ' corrects', roundErrors === 0 ? 'success' : 'info');
+    scheduleAutoAdvance(nextRound);
   }
 
   /* ===== RESET ===== */
@@ -436,6 +451,7 @@
 
   /* ===== FIN ===== */
   function finishSession() {
+    clearAutoAdvance();
     promoteExerciseStatus(PAGE_ID, 'completed');
     document.getElementById('progressFill').style.width = '100%';
     document.getElementById('gameZone').classList.add('hidden');

@@ -28,7 +28,6 @@
           <a href="evaluations.html" class="btn btn-secondary btn-sm">Évaluations</a>
           <a href="donnees.html" class="btn btn-secondary btn-sm">Données</a>
           <a href="regles.html" class="btn btn-secondary btn-sm">Règles XP</a>
-          <button class="btn btn-primary btn-sm" id="btn-download-cours" type="button">📥 Télécharger cours PDF</button>
         </div>
 
         <!-- ═══════════════════════════
@@ -274,11 +273,6 @@
     <div id="footer-slot"></div>
   </div>
 
-  <script>
-  function downloadCoursPDF() {
-    window.open('cours-print.html', '_blank');
-  }
-  </script>
   <script src="../js/score.js"></script>
   <script src="../js/exercises-config.js"></script>
   <script src="../js/stages.js"></script>
@@ -660,8 +654,6 @@
     renderEvaluation();
     document.addEventListener('score:updated', renderEvaluation);
     document.getElementById('btn-toggle-details').addEventListener('click', toggleDetails);
-    const dlBtn = document.getElementById('btn-download-cours');
-    if (dlBtn) dlBtn.addEventListener('click', downloadCoursPDF);
   });
   </script>
 </body>

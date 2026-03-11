@@ -184,6 +184,22 @@
     hintUsed: false,
     over:     false,
   };
+  let autoAdvanceTimer = null;
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  }
+
+  function scheduleAutoAdvance(callback, delay = 1500) {
+    clearAutoAdvance();
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      callback();
+    }, delay);
+  }
 
   let xpRulesShown = false;
 
@@ -218,6 +234,7 @@
 
   /* ===== INIT SESSION ===== */
   function startSession() {
+    clearAutoAdvance();
     if (!SESSION_SIZE) {
       showToast('Aucun mot disponible dans les données.', 'error');
       return;
@@ -254,6 +271,7 @@
 
   /* ===== CHARGER UN MOT ===== */
   function loadWord() {
+    clearAutoAdvance();
     session.word     = session.words[session.index].word;
     session.guessed  = new Set();
     session.errors   = 0;
@@ -427,9 +445,7 @@
   }
 
   function showNextBtn() {
-    const btn = document.getElementById('btnNext');
-    btn.style.display = 'inline-flex';
-    btn.textContent   = session.index < session.words.length - 1 ? 'Mot suivant →' : 'Terminer';
+    scheduleAutoAdvance(nextWord);
   }
 
   /* ===== INDICE ===== */
@@ -470,6 +486,7 @@
   }
 
   function finishSession() {
+    clearAutoAdvance();
     promoteExerciseStatus(PAGE_ID, 'completed');
     document.getElementById('gameZone').classList.add('hidden');
     document.getElementById('resultZone').classList.add('show');
@@ -534,7 +551,6 @@
       if (e.target.tagName === 'INPUT') return;
       const key = e.key.toUpperCase();
       if (/^[A-Z]$/.test(key)) guessLetter(key);
-      if (e.key === 'Enter' && session.over) nextWord();
     });
 
     startSession();

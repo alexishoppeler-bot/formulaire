@@ -160,6 +160,22 @@
     selectedRight: null,  // { el, idx }
     pairs:    [],
   };
+  let autoAdvanceTimer = null;
+
+  function clearAutoAdvance() {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  }
+
+  function scheduleAutoAdvance(callback, delay = 1200) {
+    clearAutoAdvance();
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      callback();
+    }, delay);
+  }
 
   let xpRulesShown = false;
 
@@ -181,6 +197,7 @@
 
   /* ===== INIT ===== */
   function startSession() {
+    clearAutoAdvance();
     // Phase 5: Mode Quick Play - prendre seulement 5 groupes si activé
     const pool = quickPlayMode ? shuffle(GROUPS).slice(0, 5) : shuffle(GROUPS);
 
@@ -207,6 +224,7 @@
 
   /* ===== CHARGER UN ROUND ===== */
   function loadRound() {
+    clearAutoAdvance();
     session.matched       = 0;
     session.selectedLeft  = null;
     session.selectedRight = null;
@@ -353,13 +371,9 @@
     fb.textContent = '🎉 Toutes les paires trouvées !';
     fb.className   = 'feedback-msg ok';
 
-    const isLast = session.roundIdx >= session.groups.length - 1;
-    const btn = document.getElementById('btnNext');
-    btn.style.display  = 'inline-flex';
-    btn.textContent    = isLast ? 'Terminer' : 'Série suivante →';
-
     showToast('Série complète !', 'success');
     if (session.errors === 0) launchConfetti();
+    scheduleAutoAdvance(nextRound);
   }
 
   /* ===== SUIVANT / TERMINER ===== */
@@ -374,6 +388,7 @@
 
   /* ===== FIN DE SESSION ===== */
   function finishSession() {
+    clearAutoAdvance();
     promoteExerciseStatus(PAGE_ID, 'completed');
 
     document.getElementById('gameZone').classList.add('hidden');

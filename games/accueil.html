@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr-CH">
 <head>
   <meta charset="UTF-8">
@@ -17,94 +17,140 @@
   <div class="layout">
     <main class="main">
       <div class="container">
-
-        <!-- Hero Section - Weekly Theme -->
-        <div class="hero-section fade-up">
-          <h1 id="weekly-theme-title">Semaine thématique</h1>
-          <p id="weekly-theme-desc">Découvrez le thème de cette semaine et participez à nos formations.</p>
-        </div>
-
-        <!-- Weekly Explanation Section -->
-        <div class="weekly-explanation fade-up delay-1">
-          <h2>📚 La semaine en bref</h2>
-          <p id="weekly-explanation-text">Le contenu de la semaine s'affiche ici...</p>
-        </div>
-
-
-        <!-- Weekly Schedule Section -->
-        <div class="weekly-schedule fade-up delay-2">
-          <h2>📅 Planning de la semaine</h2>
-          <div class="schedule-grid">
-            <div class="schedule-day" role="link" tabindex="0">
-              <h3>Lundi</h3>
-              <div class="course-block">
-                <p class="course-title">Protéger vos informations</p>
-                <p class="course-time">⏱️ 08:30 - 10:00</p>
-                <p class="course-info">📍 Salle 6</p>
-                <p class="course-info">👨‍🏫 Alexis Höppeler</p>
-              </div>
-              <div class="course-block">
-                <p class="course-title">Recherche d'emploi</p>
-                <p class="course-time">⏱️ 10:15 - 11:45</p>
-                <p class="course-time">👍 Autonomie</p>
-              </div>
-            </div>
-            <div class="schedule-day" role="link" tabindex="0">
-              <h3>Mardi</h3>
-              <div class="course-block">
-                <p class="course-title">Vocabulaire</p>
-                <p class="course-time">⏱️ 08:30 - 10:00</p>
-                <p class="course-info">📍 Salle 6</p>
-                <p class="course-info">👨‍🏫 Alexis Höppeler</p>
-              </div>
-              <div class="course-block">
-                <p class="course-title">Recherche d'emploi</p>
-                <p class="course-time">⏱️ 10:15 - 11:45</p>
-                <p class="course-time">👍 Autonomie</p>
-              </div>
-            </div>
-            <div class="schedule-day" role="link" tabindex="0">
-              <h3>Jeudi</h3>
-              <div class="course-block">
-                <p class="course-title">Joindre des fichiers</p>
-                <p class="course-time">⏱️ 08:30 - 10:00</p>
-                <p class="course-info">📍 Salle 6</p>
-                <p class="course-info">👨‍🏫 Alexis Höppeler</p>
-              </div>
-              <div class="course-block">
-                <p class="course-title">Recherche d'emploi</p>
-                <p class="course-time">⏱️ 10:15 - 11:25</p>
-                <p class="course-time">👍 Autonomie</p>
-              </div>
-            </div>
-            <div class="schedule-day" role="link" tabindex="0">
-              <h3>Vendredi</h3>
-              <div class="course-block">
-                <p class="course-title">Révision de la semaine</p>
-                <p class="course-time">⏱️ 08:30 - 10:00</p>
-                <p class="course-info">📍 Salle 6</p>
-                <p class="course-info">👨‍🏫 Alexis Höppeler</p>
-              </div>
-              <div class="course-block">
-                <p class="course-title">Recherche d'emploi</p>
-                <p class="course-time">⏱️ 10:45 - 11:45</p>
-                <p class="course-time">👍 Autonomie</p>
-              </div>
+        <section class="hero-section fade-up">
+          <div class="hero-copy">
+            <span class="hero-eyebrow">Autonomie numerique</span>
+            <h1>Apprendre, pratiquer, progresser a votre rythme.</h1>
+            <p>
+              Cette plateforme rassemble des activites concretes pour lire, ecrire, remplir un formulaire,
+              envoyer un e-mail, organiser des dossiers et mieux se debrouiller en ligne. L'objectif:
+              gagner en autonomie dans les demarches du quotidien et de l'emploi.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary btn-lg" href="#parcours">Commencer le parcours</a>
+              <a class="btn btn-secondary btn-lg" href="evaluations.html">Voir ma progression</a>
             </div>
           </div>
-        </div>
 
+          <aside class="hero-panel card card-accent">
+            <div class="hero-panel-title">Aujourd'hui sur la plateforme</div>
+            <div class="hero-panel-grid">
+              <div class="hero-metric">
+                <strong id="summaryExercises">0</strong>
+                <span>activites disponibles</span>
+              </div>
+              <div class="hero-metric">
+                <strong id="summaryCategories">0</strong>
+                <span>domaines travailles</span>
+              </div>
+              <div class="hero-metric">
+                <strong id="summaryCompleted">0</strong>
+                <span>activites terminees</span>
+              </div>
+              <div class="hero-metric">
+                <strong id="summaryAutonomy">100%</strong>
+                <span>progression sauvegardee ici</span>
+              </div>
+            </div>
+            <div class="next-step-box">
+              <div class="section-label">Prochaine etape conseillee</div>
+              <div class="next-step-name" id="nextExerciseName">Chargement...</div>
+              <p id="nextExerciseText">La plateforme vous propose automatiquement la suite du parcours.</p>
+              <a class="btn btn-ghost btn-sm" id="nextExerciseLink" href="formulaire.html">Ouvrir</a>
+            </div>
+          </aside>
+        </section>
 
+        <section class="intro-grid fade-up delay-1">
+          <article class="intro-card">
+            <div class="section-label">Ce que vous allez faire</div>
+            <h2>Des activites proches de la vraie vie</h2>
+            <p>
+              Chaque page du dossier entraine une competence utile: comprendre une consigne,
+              cliquer au bon endroit, choisir la bonne information, classer des documents et
+              communiquer de facon professionnelle.
+            </p>
+          </article>
+          <article class="intro-card">
+            <div class="section-label">Pourquoi c'est utile</div>
+            <h2>Des objectifs clairs et mesurables</h2>
+            <p>
+              Vous pouvez vous exercer plusieurs fois, voir vos resultats, suivre vos points
+              et constater vos progres sur les pages d'evaluation. L'important n'est pas d'aller vite,
+              mais de devenir plus sur et plus autonome.
+            </p>
+          </article>
+        </section>
 
+        <section class="activities-section fade-up delay-2">
+          <div class="section-label">Activites proposees</div>
+          <h2 class="section-heading">Un parcours complet pour s'entrainer</h2>
+          <div class="activities-grid" id="activitiesGrid"></div>
+        </section>
 
+        <section class="focus-grid fade-up delay-3">
+          <article class="focus-panel">
+            <div class="section-label">Objectifs vises</div>
+            <h2>Ce que vous allez developper</h2>
+            <ul class="check-list">
+              <li>Comprendre une consigne et agir dans le bon ordre.</li>
+              <li>Remplir un formulaire sans oublier les informations importantes.</li>
+              <li>Ecrire et choisir des e-mails adaptes a un contexte professionnel.</li>
+              <li>Utiliser la souris, le clavier, les fenetres et les dossiers avec plus d'aisance.</li>
+              <li>Lire, ecouter, reconnaitre et organiser l'information plus facilement.</li>
+            </ul>
+          </article>
 
-        <!-- Footer Info -->
+          <article class="focus-panel autonomy-panel">
+            <div class="section-label">Autonomie</div>
+            <h2>Avancer seul, avec un cadre simple</h2>
+            <ol class="steps-list">
+              <li>Choisissez une activite ou suivez la recommandation proposee.</li>
+              <li>Rejouez si necessaire: l'entrainement est illimite et la progression reste visible.</li>
+              <li>Consultez vos evaluations pour voir ce qui est acquis et ce qu'il faut renforcer.</li>
+            </ol>
+            <p class="motivation-note">
+              Chaque exercice termine est une preuve de plus que vous pouvez faire seul. Continuez:
+              meme quelques minutes d'entrainement regulier font une vraie difference.
+            </p>
+          </article>
+        </section>
+
+        <section class="quick-access fade-up delay-4">
+          <div class="section-label">Acces rapide</div>
+          <div class="quick-links">
+            <a class="quick-link" href="evaluations.html">
+              <span>📈</span>
+              <span>Suivre ma progression</span>
+            </a>
+            <a class="quick-link" href="regles.html">
+              <span>📏</span>
+              <span>Comprendre les points XP</span>
+            </a>
+            <a class="quick-link" href="donnees.html">
+              <span>💾</span>
+              <span>Voir les donnees locales</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="parcours-section fade-up delay-5" id="parcours">
+          <div class="parcours-head">
+            <div>
+              <div class="section-label">Parcours</div>
+              <h2 class="section-heading">Choisissez une activite et lancez-vous</h2>
+            </div>
+            <div class="category-chips" id="categoryChips"></div>
+          </div>
+          <div class="level-cards" id="exerciseCards"></div>
+        </section>
+
         <div class="footer-info fade-up delay-6">
-          <p style="font-size:13px;color:var(--text3);text-align:center;">
-            Cours hebdomadaires à l'ORP &nbsp;·&nbsp; Gratuit &nbsp;·&nbsp; Demandez à votre conseiller &nbsp;·&nbsp; <a href="donnees.html" style="color:var(--text3);text-decoration:underline;">Confidentialité</a>
+          <p>
+            Progression locale · Exercices en autonomie ·
+            <a href="donnees.html">Confidentialite</a>
           </p>
         </div>
-
       </div>
     </main>
     <div id="footer-slot"></div>
@@ -118,118 +164,170 @@
   <script src="../js/ui.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      initWeeklyPage();
-      setupDayClicks();
+      renderAccueil();
     });
 
-    // Direct course links from days
-    const DAY_COURSE_LINKS = {
-      'Lundi': 'cours-protection-donnees.html',
-      'Mardi': 'cours-vocabulaire-pro.html',
-      'Jeudi': 'cours-joindre-fichiers.html',
-      'Vendredi': 'cours-revision-semaine.html'
-    };
+    function renderAccueil() {
+      const config = window.EXERCISE_CONFIG || {};
+      const orderedPages = Array.isArray(config.orderedPages) ? config.orderedPages : [];
+      const meta = config.meta || {};
+      const firstMeta = orderedPages[0] ? (meta[orderedPages[0]] || {}) : {};
+      const nextExercise = (window.StageManager && StageManager.getNextRecommendedExercise())
+        || (orderedPages[0] ? { page: orderedPages[0], name: firstMeta.name, href: firstMeta.href } : null);
 
-    function setupDayClicks() {
-      const scheduleDays = document.querySelectorAll('.schedule-day');
-      scheduleDays.forEach((dayElement) => {
-        const dayTitle = (dayElement.querySelector('h3') && dayElement.querySelector('h3').textContent)
-          ? dayElement.querySelector('h3').textContent.trim()
-          : '';
-        const courseLink = DAY_COURSE_LINKS[dayTitle] || `jour-detail.html?day=${encodeURIComponent(dayTitle)}`;
-        dayElement.setAttribute('aria-label', `Ouvrir le cours du ${dayTitle}`);
+      renderSummary(config, orderedPages, nextExercise);
+      renderActivities(config, orderedPages);
+      renderCategoryChips(config, orderedPages);
+      renderGameCards(config, orderedPages, nextExercise);
+    }
 
-        const go = () => { window.location.href = courseLink; };
-        dayElement.addEventListener('click', go);
-        dayElement.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            go();
-          }
-        });
+    function renderSummary(config, orderedPages, nextExercise) {
+      const categories = new Set();
+      let completed = 0;
+
+      orderedPages.forEach((page) => {
+        const pageMeta = config.meta && config.meta[page];
+        if (pageMeta && pageMeta.cat) categories.add(pageMeta.cat);
+        if (window.ScoreManager && ScoreManager.readMetrics(page).status === 'completed') completed += 1;
+      });
+
+      setText('summaryExercises', orderedPages.length);
+      setText('summaryCategories', categories.size);
+      setText('summaryCompleted', completed);
+
+      if (nextExercise) {
+        setText('nextExerciseName', nextExercise.name || 'Commencer');
+        setText(
+          'nextExerciseText',
+          'Un bon prochain pas pour continuer votre progression sans vous disperser.'
+        );
+        const link = document.getElementById('nextExerciseLink');
+        if (link) link.href = nextExercise.href || (nextExercise.page + '.html');
+      }
+    }
+
+    function renderActivities(config, orderedPages) {
+      const activitiesGrid = document.getElementById('activitiesGrid');
+      if (!activitiesGrid) return;
+
+      const categoryMap = buildCategoryMap(config, orderedPages);
+      const contentByCategory = {
+        'Candidature': {
+          title: 'Postuler et remplir des formulaires',
+          desc: 'Saisir les bonnes informations, joindre les bons documents et completer une demande sans erreur.'
+        },
+        'Communication': {
+          title: 'Communiquer par e-mail',
+          desc: 'Lire une situation, choisir la bonne reponse et adopter un ton professionnel.'
+        },
+        'Navigation': {
+          title: 'Se reperer sur l' + "'" + 'ordinateur et sur le web',
+          desc: 'Utiliser les fenetres, retrouver des dossiers, cliquer juste et mieux naviguer dans un environnement numerique.'
+        },
+        'Langue': {
+          title: 'Lire, ecouter et ecrire plus facilement',
+          desc: 'Renforcer le vocabulaire, l' + "'" + 'alphabet, l' + "'" + 'ecoute et l' + "'" + 'usage du clavier.'
+        },
+        'Compétences': {
+          title: 'Executer des actions numeriques de base',
+          desc: 'Observer, selectionner, completer et agir avec precision dans des petites taches utiles.'
+        },
+        'Jeu': {
+          title: 'Consolider par le jeu',
+          desc: 'Memoriser, trier, apparier et repondre dans des formats plus ludiques pour ancrer les apprentissages.'
+        }
+      };
+
+      activitiesGrid.innerHTML = Object.keys(categoryMap).map((category) => {
+        const info = contentByCategory[category] || {
+          title: category,
+          desc: 'Exercices pour progresser pas a pas.'
+        };
+        const examples = categoryMap[category].slice(0, 3).map((item) => item.name).join(' · ');
+        return [
+          '<article class="activity-card">',
+          '  <div class="activity-top">',
+          '    <span class="activity-badge">' + escapeHTML(category) + '</span>',
+          '    <span class="activity-count">' + categoryMap[category].length + ' activites</span>',
+          '  </div>',
+          '  <h3>' + escapeHTML(info.title) + '</h3>',
+          '  <p>' + escapeHTML(info.desc) + '</p>',
+          '  <div class="activity-examples">' + escapeHTML(examples) + '</div>',
+          '</article>'
+        ].join('');
+      }).join('');
+    }
+
+    function renderCategoryChips(config, orderedPages) {
+      const container = document.getElementById('categoryChips');
+      if (!container) return;
+      const categoryMap = buildCategoryMap(config, orderedPages);
+      container.innerHTML = Object.keys(categoryMap).map((category) => {
+        return '<span class="category-chip">' + escapeHTML(category) + ' · ' + categoryMap[category].length + '</span>';
+      }).join('');
+    }
+
+    function renderGameCards(config, orderedPages, nextExercise) {
+      const cardsContainer = document.getElementById('exerciseCards');
+      if (!cardsContainer) return;
+
+      cardsContainer.innerHTML = '';
+
+      orderedPages.forEach((page) => {
+        const pageMeta = (config.meta && config.meta[page]) || {};
+        const metrics = window.ScoreManager ? ScoreManager.readMetrics(page) : { status: 'not_started', xp: 0, typed: 0, correct: 0 };
+        const status = metrics.status || 'not_started';
+        const completionText = status === 'completed'
+          ? 'Fini'
+          : (status === 'in_progress' ? 'En cours' : 'Pas commence');
+        const category = pageMeta.cat || 'Exercice';
+        const accuracy = metrics.typed > 0 ? Math.round((metrics.correct / metrics.typed) * 100) : null;
+        const statsText = accuracy !== null ? (metrics.xp || 0) + ' XP · ' + accuracy + '% precision' : (metrics.xp || 0) + ' XP';
+        const isRecommended = nextExercise && nextExercise.page === page;
+
+        const card = document.createElement('a');
+        card.href = pageMeta.href || (page + '.html');
+        card.className = 'level-card' + (isRecommended ? ' recommended' : '');
+        card.innerHTML = [
+          '<div class="level-card-top">',
+          '  <span class="level-card-category">' + escapeHTML(category) + '</span>',
+          isRecommended ? '  <span class="level-card-flag">Conseille</span>' : '',
+          '</div>',
+          '<h3>' + escapeHTML(pageMeta.name || page) + '</h3>',
+          '<p class="level-card-desc">' + completionText + '</p>',
+          '<div class="level-card-meta">' + escapeHTML(statsText) + '</div>',
+          '<div class="level-card-cta">' + (status === 'completed' ? 'Revoir' : 'Commencer') + ' →</div>'
+        ].join('');
+        cardsContainer.appendChild(card);
       });
     }
 
-    function initWeeklyPage() {
-      // Données de la semaine (à customiser)
-      const weeklyData = {
-        title: 'Semaine – Postuler en sécurité',
-        description: 'Bienvenue ! Cette semaine, vous apprenez à protéger vos données, remplir des formulaires et postuler en ligne.',
-        explanation: `
-          <p>📚 Cette semaine, vous allez apprendre à chercher un emploi en Suisse.</p>
-          <p>🔒 Vous apprenez à <strong>protéger vos données</strong> (mots de passe, arnaques, documents à partager).</p>
-          <p>📝 Vous apprenez à <strong>remplir un formulaire</strong> et à postuler en ligne.</p>
-          <p>⭐ Choisissez les offres qui vous conviennent. Mettez en favoris les annonces intéressantes et adaptez votre dossier.</p>
-          <p>📨 Postulez et 🗂️ enregistrez vos démarches sur <strong>Job Room</strong>.</p>
-          <p>🎮 Si vous avez déjà fait toutes vos obligations ORP, vous pouvez faire les jeux en autonomie.</p>
-        `
-      };
-
-      // Mettre à jour le contenu
-      document.getElementById('weekly-theme-title').textContent = weeklyData.title;
-      document.getElementById('weekly-theme-desc').textContent = weeklyData.description;
-      document.getElementById('weekly-explanation-text').innerHTML = weeklyData.explanation;
-
-      // Afficher les jeux
-      renderGameCards();
+    function buildCategoryMap(config, orderedPages) {
+      return orderedPages.reduce((acc, page) => {
+        const pageMeta = (config.meta && config.meta[page]) || {};
+        const category = pageMeta.cat || 'Autres';
+        if (!acc[category]) acc[category] = [];
+        acc[category].push({ page: page, name: pageMeta.name || page });
+        return acc;
+      }, {});
     }
 
-    function renderGameCards() {
-      if (typeof StageManager === 'undefined') {
-        setTimeout(renderGameCards, 100);
-        return;
-      }
-
-      const config = window.EXERCISE_CONFIG || {};
-      const orderedPages = Array.isArray(config.orderedPages) ? config.orderedPages : [];
-      const nextExercise = StageManager.getNextRecommendedExercise();
-
-      const exerciseByPage = new Map();
-      for (const stage of StageManager.getStages()) {
-        for (const ex of stage.exercises) exerciseByPage.set(ex.page, ex);
-      }
-      for (const bonus of [...StageManager.getUnlockedBonuses(), ...StageManager.getLockedBonuses()]) {
-        exerciseByPage.set(bonus.page, bonus);
-      }
-      const exercises = orderedPages.map(page => exerciseByPage.get(page)).filter(Boolean);
-
-      const cardsContainer = document.querySelector('.level-cards');
-      if (!cardsContainer) return;
-      cardsContainer.innerHTML = '';
-
-      for (const ex of exercises) {
-        const metrics = ScoreManager.readMetrics(ex.page);
-        const status = metrics.status;
-        const completionText = status === 'completed'
-          ? 'Fini'
-          : (status === 'in_progress' ? 'En cours' : 'Pas commencé');
-        const completionColor = status === 'completed'
-          ? 'var(--success)'
-          : (status === 'in_progress' ? 'var(--warning)' : 'var(--text3)');
-        const category = (config.meta && config.meta[ex.page] && config.meta[ex.page].cat) ? config.meta[ex.page].cat : 'Exercice';
-
-        const xp = metrics.xp || 0;
-        const accuracy = metrics.typed > 0 ? Math.round((metrics.correct / metrics.typed) * 100) : null;
-        const statsText = accuracy !== null ? `${xp} XP · ${accuracy}% précision` : `${xp} XP`;
-
-        const card = document.createElement('a');
-        card.href = `${ex.page}.html`;
-        card.className = 'level-card';
-        card.innerHTML = `
-          <h2>${ex.name}</h2>
-          <p class="level-card-desc">${category}</p>
-          <div style="font-size:12px;color:${completionColor};margin-bottom:12px;font-weight:500;">${completionText}</div>
-          <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">${statsText}</div>
-          <div class="level-card-cta">${status === 'completed' ? 'Revoir →' : 'Jouer →'}</div>
-        `;
-        cardsContainer.appendChild(card);
-      }
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = String(value);
     }
 
-    document.addEventListener('admin:unlock-changed', () => {
-      renderGameCards();
-    });
+    function escapeHTML(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    document.addEventListener('score:updated', renderAccueil);
+    document.addEventListener('admin:unlock-changed', renderAccueil);
   </script>
 </body>
 </html>
-

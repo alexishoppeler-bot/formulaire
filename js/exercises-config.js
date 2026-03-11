@@ -4,10 +4,6 @@
   const nonOrderedPages = ['accueil', 'evaluations', 'regles', 'donnees'];
   const entries = [
     { page: 'accueil', name: 'Accueil', icon: '🏠', cat: 'Navigation' },
-    { page: 'cours-protection-donnees', name: 'Cours: Protection des données', icon: '🔒', cat: 'Cours' },
-    { page: 'cours-vocabulaire-pro', name: 'Cours: Vocabulaire pro', icon: '🧠', cat: 'Cours' },
-    { page: 'cours-joindre-fichiers', name: 'Cours: Joindre des fichiers', icon: '📎', cat: 'Cours' },
-    { page: 'cours-revision-semaine', name: 'Cours: Révision semaine', icon: '📚', cat: 'Cours' },
     { page: 'formulaire', name: 'Formulaire', icon: '📝', cat: 'Candidature' },
     { page: 'email-ecrire', name: 'Écrire un e-mail', icon: '✉️', cat: 'Communication' },
     { page: 'email-pro', name: 'E-mails professionnels', icon: '📧', cat: 'Communication' },

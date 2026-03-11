@@ -12,6 +12,22 @@ let session = {
   xp: 0,
   answered: false
 };
+let autoAdvanceTimer = null;
+
+function clearAutoAdvance() {
+  if (autoAdvanceTimer) {
+    clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer = null;
+  }
+}
+
+function scheduleAutoAdvance(callback, delay = 1400) {
+  clearAutoAdvance();
+  autoAdvanceTimer = setTimeout(() => {
+    autoAdvanceTimer = null;
+    callback();
+  }, delay);
+}
 
 function shuffle(arr) {
   const copy = [...arr];
@@ -35,13 +51,31 @@ function formatBody(text) {
   return escapeHTML(text).replace(/\n/g, '<br>');
 }
 
+function prepareCases(cases) {
+  return shuffle(cases).map((item) => {
+    const indexedResponses = item.responses.map((response, index) => ({
+      ...response,
+      _isCorrect: index === item.answer
+    }));
+    const shuffledResponses = shuffle(indexedResponses);
+    const answer = shuffledResponses.findIndex((response) => response._isCorrect);
+
+    return {
+      ...item,
+      responses: shuffledResponses.map(({ _isCorrect, ...response }) => response),
+      answer
+    };
+  });
+}
+
 function startSession() {
+  clearAutoAdvance();
   if (!EMAIL_CASES.length) {
     showToast('Aucun e-mail disponible.', 'error');
     return;
   }
 
-  session.items = shuffle(EMAIL_CASES);
+  session.items = prepareCases(EMAIL_CASES);
   session.index = 0;
   session.correct = 0;
   session.errors = 0;
@@ -55,6 +89,7 @@ function startSession() {
 }
 
 function renderEmailCase() {
+  clearAutoAdvance();
   const current = session.items[session.index];
   session.answered = false;
 
@@ -91,13 +126,21 @@ function renderResponseChoices(item) {
     button.type = 'button';
     button.innerHTML = `
       <div class="mail-choice-head">
-        <span class="mail-letter">${letters[idx]}</span>
-        <span class="mail-subject"><strong>Objet :</strong> ${escapeHTML(response.subject)}</span>
+        <div class="mail-choice-intro">
+          <span class="mail-letter">${letters[idx]}</span>
+          <div class="mail-choice-title">
+            <span class="mail-choice-label">Objet</span>
+            <span class="mail-subject">${escapeHTML(response.subject)}</span>
+          </div>
+        </div>
       </div>
-      <div class="mail-body">${formatBody(response.body)}</div>
+      <div class="mail-choice-preview">
+        <span class="mail-choice-label">Message</span>
+        <div class="mail-body">${formatBody(response.body)}</div>
+      </div>
       <div class="mail-meta">
-        <span class="mail-pill">${escapeHTML(response.attachment)}</span>
-        <span class="mail-pill">${escapeHTML(response.signature)}</span>
+        <span class="mail-pill">PJ: ${escapeHTML(response.attachment)}</span>
+        <span class="mail-pill">Signature: ${escapeHTML(response.signature)}</span>
       </div>
     `;
     button.addEventListener('click', () => answer(idx));
@@ -132,10 +175,8 @@ function answer(selectedIndex) {
     showFeedback(false, current.responses[selectedIndex].reasonIfWrong || 'Cette réponse n’est pas adaptée.');
   }
 
-  const nextBtn = document.getElementById('btnNext');
-  nextBtn.style.display = 'inline-flex';
-  nextBtn.textContent = session.index < session.items.length - 1 ? 'E-mail suivant' : 'Terminer';
   updateKPIs();
+  scheduleAutoAdvance(nextEmail);
 }
 
 function showFeedback(isCorrect, message) {
@@ -156,6 +197,7 @@ function nextEmail() {
 }
 
 function finishSession() {
+  clearAutoAdvance();
   promoteExerciseStatus(PAGE_ID, 'completed');
 
   document.getElementById('gameZone').classList.add('hidden');
@@ -220,7 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
       answer(map[e.key]);
       return;
     }
-    if (e.key === 'Enter' && session.answered) nextEmail();
   });
 
   startSession();

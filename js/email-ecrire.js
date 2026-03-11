@@ -4,6 +4,22 @@ const PAGE_ID = 'email-ecrire';
 const CASES = Array.isArray(window.EMAIL_ECRIRE_DATA) ? window.EMAIL_ECRIRE_DATA : [];
 
 let session = { items: [], index: 0, correct: 0, errors: 0, typed: 0, xp: 0, answered: false };
+let autoAdvanceTimer = null;
+
+function clearAutoAdvance() {
+  if (autoAdvanceTimer) {
+    clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer = null;
+  }
+}
+
+function scheduleAutoAdvance(callback, delay = 1400) {
+  clearAutoAdvance();
+  autoAdvanceTimer = setTimeout(() => {
+    autoAdvanceTimer = null;
+    callback();
+  }, delay);
+}
 
 function shuffle(arr) {
   const copy = [...arr];
@@ -22,18 +38,37 @@ function formatBody(text) {
   return escapeHTML(text).replace(/\n/g, '<br>');
 }
 
+function prepareCases(cases) {
+  return shuffle(cases).map((item) => {
+    const indexedChoices = item.choices.map((choice, index) => ({
+      ...choice,
+      _isCorrect: index === item.answer
+    }));
+    const shuffledChoices = shuffle(indexedChoices);
+    const answer = shuffledChoices.findIndex((choice) => choice._isCorrect);
+
+    return {
+      ...item,
+      choices: shuffledChoices.map(({ _isCorrect, ...choice }) => choice),
+      answer
+    };
+  });
+}
+
 function startSession() {
+  clearAutoAdvance();
   if (!CASES.length) {
     showToast('Aucune situation disponible.', 'error');
     return;
   }
-  session = { items: shuffle(CASES), index: 0, correct: 0, errors: 0, typed: 0, xp: 0, answered: false };
+  session = { items: prepareCases(CASES), index: 0, correct: 0, errors: 0, typed: 0, xp: 0, answered: false };
   document.getElementById('resultZone').classList.remove('show');
   document.getElementById('gameZone').classList.remove('hidden');
   renderCase();
 }
 
 function renderCase() {
+  clearAutoAdvance();
   const current = session.items[session.index];
   session.answered = false;
   document.getElementById('sNum').textContent = session.index + 1;
@@ -58,13 +93,21 @@ function renderCase() {
     btn.type = 'button';
     btn.innerHTML = `
       <div class="mail-choice-head">
-        <span class="mail-letter">${letters[idx]}</span>
-        <span class="mail-subject"><strong>Objet :</strong> ${escapeHTML(choice.subject)}</span>
+        <div class="mail-choice-intro">
+          <span class="mail-letter">${letters[idx]}</span>
+          <div class="mail-choice-title">
+            <span class="mail-choice-label">Objet</span>
+            <span class="mail-subject">${escapeHTML(choice.subject)}</span>
+          </div>
+        </div>
       </div>
-      <div class="mail-body">${formatBody(choice.body)}</div>
+      <div class="mail-choice-preview">
+        <span class="mail-choice-label">Message</span>
+        <div class="mail-body">${formatBody(choice.body)}</div>
+      </div>
       <div class="mail-meta">
-        <span class="mail-pill">${escapeHTML(choice.attachment)}</span>
-        <span class="mail-pill">${escapeHTML(choice.signature)}</span>
+        <span class="mail-pill">PJ: ${escapeHTML(choice.attachment)}</span>
+        <span class="mail-pill">Signature: ${escapeHTML(choice.signature)}</span>
       </div>`;
     btn.addEventListener('click', () => answer(idx));
     box.appendChild(btn);
@@ -98,10 +141,8 @@ function answer(idx) {
     showFeedback(false, current.choices[idx].reasonIfWrong || 'Cette proposition contient des erreurs.');
   }
 
-  const btn = document.getElementById('btnNext');
-  btn.style.display = 'inline-flex';
-  btn.textContent = session.index < session.items.length - 1 ? 'Situation suivante' : 'Terminer';
   updateKPIs();
+  scheduleAutoAdvance(nextCase);
 }
 
 function showFeedback(ok, text) {
@@ -118,6 +159,7 @@ function nextCase() {
 }
 
 function finish() {
+  clearAutoAdvance();
   promoteExerciseStatus(PAGE_ID, 'completed');
   document.getElementById('gameZone').classList.add('hidden');
   document.getElementById('resultZone').classList.add('show');
@@ -159,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target && e.target.tagName === 'INPUT') return;
     const map = { '1': 0, '2': 1, '3': 2, '4': 3 };
     if (!session.answered && Object.prototype.hasOwnProperty.call(map, e.key)) answer(map[e.key]);
-    if (e.key === 'Enter' && session.answered) nextCase();
   });
 
   startSession();
