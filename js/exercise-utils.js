@@ -183,7 +183,55 @@ const EXERCISE_COACH = {
   accuracyToastEveryAttempts: 8,
   accuracyToastStartAtAttempts: 6
 };
+const EXERCISE_SESSION = {
+  byPage: {}
+};
 const EXERCISE_COACH_STORAGE_KEY = 'exerciseCoachOptions';
+
+function createSessionState() {
+  return {
+    correct: 0,
+    typed: 0,
+    errors: 0,
+    xp: 0,
+    startedAt: Date.now(),
+    finalized: false
+  };
+}
+
+function ensureActiveSessionState(page) {
+  const current = EXERCISE_SESSION.byPage[page];
+  if (!current || current.finalized) {
+    EXERCISE_SESSION.byPage[page] = createSessionState();
+  }
+  return EXERCISE_SESSION.byPage[page];
+}
+
+function resetSessionState(page) {
+  delete EXERCISE_SESSION.byPage[page];
+}
+
+function finalizeExerciseSession(page) {
+  const session = EXERCISE_SESSION.byPage[page];
+  if (!session || session.finalized || session.typed <= 0) return;
+
+  const meta = (window.EXERCISE_CONFIG || {}).meta || {};
+  const gameName = (meta[page] && meta[page].name) || page;
+  const accuracy = calcAccuracy(session.correct, session.typed);
+
+  session.finalized = true;
+  ScoreManager.pushSessionHistory({
+    page,
+    name: gameName,
+    xp: session.xp,
+    correct: session.correct,
+    typed: session.typed,
+    errors: session.errors,
+    accuracy,
+    startedAt: session.startedAt,
+    completedAt: Date.now()
+  });
+}
 
 function getExerciseName(page) {
   const meta = (window.EXERCISE_CONFIG || {}).meta || {};
@@ -359,6 +407,12 @@ if (typeof window !== 'undefined') {
  * @param {object} delta - {correct, typed, errors, xp}
  */
 function recordExerciseProgress(page, delta) {
+  const session = ensureActiveSessionState(page);
+  session.correct += Math.max(0, Number(delta && delta.correct) || 0);
+  session.typed += Math.max(0, Number(delta && delta.typed) || 0);
+  session.errors += Math.max(0, Number(delta && delta.errors) || 0);
+  session.xp += Math.max(0, Number(delta && delta.xp) || 0);
+
   ScoreManager.updateMetrics(page, delta);
   ScoreManager.promoteStatus(page, 'in_progress');
   maybeShowCoachToast(page, delta);
@@ -381,8 +435,15 @@ function recordExerciseSnapshot(page, data) {
  */
 function promoteExerciseStatus(page, status) {
   ScoreManager.promoteStatus(page, status);
+  if (status === 'in_progress') {
+    ensureActiveSessionState(page);
+  }
+  if (status === 'completed') {
+    finalizeExerciseSession(page);
+  }
   if (status === 'not_started') {
     delete EXERCISE_COACH.byPage[page];
+    resetSessionState(page);
   }
 }
 
@@ -393,6 +454,7 @@ function promoteExerciseStatus(page, status) {
 function startExerciseSession(page) {
   ScoreManager.promoteStatus(page, 'in_progress');
   delete EXERCISE_COACH.byPage[page];
+  EXERCISE_SESSION.byPage[page] = createSessionState();
 }
 
 /**
@@ -401,20 +463,7 @@ function startExerciseSession(page) {
  */
 function endExerciseSession(page) {
   ScoreManager.promoteStatus(page, 'completed');
-  // Enregistrer dans l'historique des sessions
-  const metrics = ScoreManager.readMetrics(page);
-  const meta = (window.EXERCISE_CONFIG || {}).meta || {};
-  const gameName = (meta[page] && meta[page].name) || page;
-  const accuracy = metrics.typed > 0 ? Math.round((metrics.correct / metrics.typed) * 100) : 0;
-  ScoreManager.pushSessionHistory({
-    page,
-    name: gameName,
-    xp: metrics.xp,
-    correct: metrics.correct,
-    errors: metrics.errors,
-    accuracy,
-    completedAt: Date.now()
-  });
+  finalizeExerciseSession(page);
   delete EXERCISE_COACH.byPage[page];
 }
 
