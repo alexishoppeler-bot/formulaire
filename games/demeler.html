@@ -73,7 +73,7 @@
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
               <button class="btn btn-primary btn-sm" id="btn-check" type="button">V&eacute;rifier</button>
               <button class="btn btn-secondary btn-sm" id="btn-clear" type="button">Effacer</button>
-              <button class="btn btn-secondary btn-sm" id="btn-hint" type="button">Indice (-2 XP)</button>
+              <button class="btn btn-secondary btn-sm" id="btn-hint" type="button">Indice (-2 XP si correct)</button>
               <button class="btn btn-ghost btn-sm" id="btn-next" type="button">Suivant</button>
             </div>
           </div>
@@ -358,20 +358,19 @@
     if (hintUsed) { showToast('Indice d\u00e9j\u00e0 utilis\u00e9.', 'info'); return; }
     const s     = session[idx];
     const words = s.text.replace(/[.!?]$/, '').split(' ');
-    // R&eacute;v&eacute;ler les 2 premiers mots dans l'ordre
+    // Révéler les 2 premiers mots dans le bon ordre en tête
     const first2 = words.slice(0, 2);
-    // Forcer leur placement en d&eacute;but de answerWords
+    const orderedStart = [];
+    const usedIds = new Set();
     first2.forEach(w => {
-      const item = answerWords.find(i => i.w === w);
-      if (item) {
-        answerWords    = answerWords.filter(i => i.id !== item.id);
-        answerWords.unshift(item);
-      }
+      const item = answerWords.find(i => i.w === w && !usedIds.has(i.id));
+      if (item) { orderedStart.push(item); usedIds.add(item.id); }
     });
+    const remaining = answerWords.filter(i => !usedIds.has(i.id));
+    answerWords = [...orderedStart, ...remaining];
     hintUsed = true;
-    xpCount  = Math.max(0, xpCount - 2);
     updateKPI();
-    showToast('Indice fourni.', 'info');
+    showToast('Indice : les 2 premiers mots sont en place (-2 XP si correct).', 'info');
     renderZones();
   }
 

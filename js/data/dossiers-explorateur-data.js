@@ -31,7 +31,7 @@ window.DOSSIERS_EXPLORATEUR_DATA = {
       {
         id: 'downloads',
         type: 'folder',
-        name: 'Telechargements',
+        name: 'Téléchargements',
         children: [
           { id: 'file-cv-alex', type: 'file', name: 'CV_Alex.pdf' },
           { id: 'file-contrat', type: 'file', name: 'Contrat_temporaire.pdf' },
@@ -59,9 +59,9 @@ window.DOSSIERS_EXPLORATEUR_DATA = {
   missions: [
     {
       id: 'm1',
-      title: 'Mission 1: Créer un dossier',
+      title: 'Mission 1 : Créer un dossier',
       instruction: 'Dans Documents, créez un dossier nommé ORP.',
-      hint: 'Ouvrez Documents, puis bouton "Nouveau dossier".',
+      hint: 'Ouvrez Documents, puis cliquez sur « Nouveau dossier ».',
       check: {
         type: 'folder_exists',
         parentPath: ['Documents'],
@@ -70,9 +70,9 @@ window.DOSSIERS_EXPLORATEUR_DATA = {
     },
     {
       id: 'm2',
-      title: 'Mission 2: Renommer',
+      title: 'Mission 2 : Renommer un dossier',
       instruction: 'Renommez le dossier CV en Candidatures.',
-      hint: 'Selectionnez CV puis bouton "Renommer".',
+      hint: 'Sélectionnez le dossier CV, puis cliquez sur « Renommer ».',
       check: {
         type: 'folder_exists',
         parentPath: ['Documents'],
@@ -81,9 +81,9 @@ window.DOSSIERS_EXPLORATEUR_DATA = {
     },
     {
       id: 'm3',
-      title: 'Mission 3: Sous-dossier',
+      title: 'Mission 3 : Créer un sous-dossier',
       instruction: 'Dans Documents > ORP, créez un sous-dossier nommé Dossier_2026.',
-      hint: 'Entrez dans ORP puis créez le dossier.',
+      hint: 'Ouvrez le dossier ORP, puis créez un nouveau dossier.',
       check: {
         type: 'folder_exists',
         parentPath: ['Documents', 'ORP'],
@@ -92,21 +92,21 @@ window.DOSSIERS_EXPLORATEUR_DATA = {
     },
     {
       id: 'm4',
-      title: 'Mission 4: Deplacer (drag and drop)',
-      instruction: 'Deplacez CV_Alex.pdf dans Documents > ORP.',
-      hint: 'Glissez le fichier sur ORP (arbre ou panneau droit).',
+      title: 'Mission 4 : Déplacer un fichier',
+      instruction: 'Déplacez CV_Alex.pdf dans Documents > ORP.',
+      hint: 'Glissez le fichier sur ORP ou utilisez Couper / Coller.',
       check: {
         type: 'node_in_path',
         name: 'CV_Alex.pdf',
         targetPath: ['Documents', 'ORP'],
-        sourcePathMustNotContain: ['Telechargements']
+        sourcePathMustNotContain: ['Téléchargements']
       }
     },
     {
       id: 'm5',
-      title: 'Mission 5: Copier / Coller',
-      instruction: 'Copiez Lettre_motivation.docx vers Documents > ORP (sans enlever l original).',
-      hint: 'Selectionnez le fichier, cliquez "Copier", ouvrez ORP, puis "Coller".',
+      title: 'Mission 5 : Copier / Coller',
+      instruction: 'Copiez Lettre_motivation.docx dans Documents > ORP, sans supprimer l’original.',
+      hint: 'Sélectionnez le fichier, cliquez sur « Copier », ouvrez ORP, puis cliquez sur « Coller ».',
       check: {
         type: 'copy_vs_move',
         name: 'Lettre_motivation.docx',
@@ -117,21 +117,21 @@ window.DOSSIERS_EXPLORATEUR_DATA = {
     },
     {
       id: 'm6',
-      title: 'Mission 6: Deplacer plusieurs elements',
-      instruction: 'Deplacez Contrat_temporaire.pdf et Attestation_ORP.pdf vers Documents > ORP.',
-      hint: 'Selection multiple: Ctrl + clic, puis Couper et Coller.',
+      title: 'Mission 6 : Déplacer plusieurs fichiers',
+      instruction: 'Déplacez Contrat_temporaire.pdf et Attestation_ORP.pdf dans Documents > ORP.',
+      hint: 'Sélection multiple : Ctrl + clic, puis Couper et Coller.',
       check: {
         type: 'multi_nodes_in_path',
         names: ['Contrat_temporaire.pdf', 'Attestation_ORP.pdf'],
         targetPath: ['Documents', 'ORP'],
-        sourcePathMustNotContain: ['Telechargements']
+        sourcePathMustNotContain: ['Téléchargements']
       }
     },
     {
       id: 'm7',
-      title: 'Mission 7: Supprimer',
-      instruction: 'Supprimez Attestation_ORP.pdf. Il doit aller dans Corbeille.',
-      hint: 'Selectionnez le fichier puis bouton "Supprimer".',
+      title: 'Mission 7 : Supprimer un fichier',
+      instruction: 'Supprimez Attestation_ORP.pdf. Le fichier doit aller dans la Corbeille.',
+      hint: 'Sélectionnez le fichier, puis cliquez sur « Supprimer ».',
       check: {
         type: 'recycle_contains',
         name: 'Attestation_ORP.pdf'
@@ -139,9 +139,9 @@ window.DOSSIERS_EXPLORATEUR_DATA = {
     },
     {
       id: 'm8',
-      title: 'Mission 8: Restaurer',
-      instruction: 'Depuis Corbeille, restaurez Attestation_ORP.pdf.',
-      hint: 'Ouvrez Corbeille, selectionnez le fichier, cliquez "Restaurer".',
+      title: 'Mission 8 : Restaurer depuis la Corbeille',
+      instruction: 'Depuis la Corbeille, restaurez Attestation_ORP.pdf.',
+      hint: 'Ouvrez la Corbeille, sélectionnez le fichier, puis cliquez sur « Restaurer ».',
       check: {
         type: 'restored_from_recycle',
         name: 'Attestation_ORP.pdf',
@@ -150,9 +150,9 @@ window.DOSSIERS_EXPLORATEUR_DATA = {
     },
     {
       id: 'm9',
-      title: 'Mission 9: Vider la corbeille',
-      instruction: 'Supprimez Notes_tmp.txt puis videz la corbeille.',
-      hint: 'Supprimez Notes_tmp.txt, ouvrez Corbeille, puis "Vider corbeille".',
+      title: 'Mission 9 : Vider la Corbeille',
+      instruction: 'Supprimez Notes_tmp.txt, puis videz la Corbeille.',
+      hint: 'Supprimez Notes_tmp.txt, ouvrez la Corbeille, puis cliquez sur « Vider la Corbeille ».',
       check: {
         type: 'delete_and_empty_recycle',
         deletedName: 'Notes_tmp.txt'

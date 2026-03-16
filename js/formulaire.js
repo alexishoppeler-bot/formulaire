@@ -11,11 +11,7 @@ let session = {
   typed: 0,
   xp: 0,
   answered: false,
-  hintsUsed: 0,
-  openedDocuments: {},
-  folderOpened: {},
-  selectedDocument: {},
-  currentLocation: {}
+  hintsUsed: 0
 };
 let autoAdvanceTimer = null;
 
@@ -34,51 +30,6 @@ function scheduleAutoAdvance(callback, delay = 1800) {
   }, delay);
 }
 
-const REQUIRED_DOCUMENTS = [
-  { key: 'cv', name: 'CV.pdf', label: 'CV' },
-  { key: 'lm', name: 'LM.pdf', label: 'Lettre de motivation' },
-  { key: 'certificats', name: 'Certificats de travail.pdf', label: 'Certificats de travail' }
-];
-
-const ATTACH_LOCATIONS = {
-  quick: {
-    path: 'Accès rapide',
-    items: [
-      { kind: 'folder', key: 'documents', name: 'Documents', type: 'Dossier', date: 'Aujourd’hui' },
-      { kind: 'folder', key: 'downloads', name: 'Téléchargements', type: 'Dossier', date: 'Aujourd’hui' },
-      { kind: 'folder', key: 'desktop', name: 'Bureau', type: 'Dossier', date: 'Aujourd’hui' }
-    ]
-  },
-  desktop: {
-    path: 'Ce PC > Bureau',
-    items: []
-  },
-  downloads: {
-    path: 'Ce PC > Téléchargements',
-    items: []
-  },
-  documents: {
-    path: 'Ce PC > Documents',
-    items: [
-      { kind: 'folder', key: 'candidature', name: 'Dossier de candidature', type: 'Dossier', date: 'Aujourd’hui' }
-    ]
-  },
-  candidature: {
-    path: 'Ce PC > Documents > Dossier de candidature',
-    items: REQUIRED_DOCUMENTS.map((doc) => ({
-      kind: 'file',
-      key: doc.key,
-      name: doc.name,
-      type: 'Document PDF',
-      date: 'Aujourd’hui'
-    }))
-  }
-};
-
-function countOpenedDocuments(index) {
-  const opened = session.openedDocuments[index] || {};
-  return REQUIRED_DOCUMENTS.filter((doc) => opened[doc.key]).length;
-}
 
 function shuffle(arr) {
   const copy = [...arr];
@@ -192,22 +143,15 @@ function expectedValueForField(field, round) {
   return field.expected;
 }
 
-function splitName(name) {
-  const parts = String(name || '').trim().split(/\s+/);
-  return {
-    firstName: parts[0] || '',
-    lastName: parts.slice(1).join(' ') || ''
-  };
-}
-
 function getRoundTag(round) {
   return round && round.tag ? round.tag : 'Candidature';
 }
 
 function profileRows(round) {
   const p = round.profile || {};
+  const fullName = [p.firstName, p.lastName].filter(Boolean).join(' ');
   return [
-    ['Nom', p.name || ''],
+    ['Nom complet', fullName],
     ['Date de naissance', p.birthDate || ''],
     ['État civil', p.maritalStatus || ''],
     ['Age', p.age ? `${p.age} ans` : ''],
@@ -215,7 +159,7 @@ function profileRows(round) {
     ['Téléphone', p.phone || ''],
     ['Adresse', p.address ? `${p.address}, ${p.npa} ${p.city}` : ''],
     ['Formation', p.education || ''],
-    ['Expérience', p.experience || ''],
+    ['Expérience', p.experienceText || ''],
     ['Permis de conduire', p.drivingLicense || ''],
     ['Permis de séjour', p.residencePermit || ''],
     ['Disponibilité', p.availability || ''],
@@ -224,75 +168,6 @@ function profileRows(round) {
   ].filter(([, value]) => String(value).trim() !== '');
 }
 
-function renderDocumentExplorer() {
-  const grid = document.getElementById('documentsGrid');
-  const hint = document.getElementById('documentTaskHint');
-  const selectedLabel = document.getElementById('selectedDocumentLabel');
-  const openSelectedBtn = document.getElementById('openSelectedDoc');
-  const empty = document.getElementById('attachEmptyState');
-  if (!grid || !hint || !selectedLabel || !openSelectedBtn || !empty) return;
-
-  const opened = session.openedDocuments[session.index] || {};
-  const currentLocation = session.currentLocation[session.index] || 'quick';
-  const selectedKey = session.selectedDocument[session.index] || '';
-  const openedCount = countOpenedDocuments(session.index);
-  const locationData = ATTACH_LOCATIONS[currentLocation] || ATTACH_LOCATIONS.quick;
-  const visibleItems = locationData.items;
-  const selectedDoc = REQUIRED_DOCUMENTS.find((doc) => doc.key === selectedKey) || null;
-
-  hint.textContent = `Ouvrez les 3 documents du dossier avant de valider (${openedCount}/3 ouverts).`;
-  grid.classList.remove('hidden');
-  empty.classList.toggle('hidden', visibleItems.length > 0);
-  selectedLabel.textContent = selectedDoc ? selectedDoc.name : 'Aucun fichier sélectionné';
-  openSelectedBtn.disabled = currentLocation !== 'candidature' || !selectedDoc;
-  openSelectedBtn.onclick = () => {
-    if (currentLocation === 'candidature' && selectedDoc) openDocument(selectedDoc.key);
-  };
-
-  grid.innerHTML = visibleItems.map((item) => {
-    const isOpened = item.kind === 'file' && Boolean(opened[item.key]);
-    const isSelected = selectedKey === item.key;
-    const icon = item.kind === 'folder' ? '📁' : '📄';
-    return `
-      <button class="attach-row ${isOpened ? 'opened' : ''} ${isSelected ? 'selected' : ''}" type="button" data-item-kind="${item.kind}" data-item-key="${item.key}">
-        <span class="attach-row-name"><span class="attach-row-icon">${icon}</span>${escapeHTML(item.name)}</span>
-        <span class="attach-row-type">${escapeHTML(item.type)}</span>
-        <span class="attach-row-date">${isOpened ? 'Ouvert' : escapeHTML(item.date)}</span>
-      </button>
-    `;
-  }).join('');
-
-  grid.querySelectorAll('[data-item-key]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.itemKey;
-      const kind = btn.dataset.itemKind;
-      session.selectedDocument[session.index] = kind === 'file' ? key : '';
-      renderDocumentExplorer();
-    });
-    btn.addEventListener('dblclick', () => {
-      const key = btn.dataset.itemKey;
-      const kind = btn.dataset.itemKind;
-      if (kind === 'folder') {
-        session.currentLocation[session.index] = key;
-        session.selectedDocument[session.index] = '';
-        renderDocumentExplorer();
-      } else {
-        openDocument(key);
-      }
-    });
-  });
-}
-
-function openDocument(docKey) {
-  const doc = REQUIRED_DOCUMENTS.find((item) => item.key === docKey);
-  if (!doc) return;
-
-  session.openedDocuments[session.index] = session.openedDocuments[session.index] || {};
-  session.openedDocuments[session.index][doc.key] = true;
-  session.selectedDocument[session.index] = doc.key;
-
-  renderDocumentExplorer();
-}
 
 function startSession() {
   clearAutoAdvance();
@@ -309,11 +184,7 @@ function startSession() {
     typed: 0,
     xp: 0,
     answered: false,
-    hintsUsed: 0,
-    openedDocuments: {},
-    folderOpened: {},
-    selectedDocument: {},
-    currentLocation: {}
+    hintsUsed: 0
   };
 
   const resultZone = document.getElementById('resultZone');
@@ -334,7 +205,9 @@ function renderRound() {
   document.getElementById('roundNum').textContent = String(session.index + 1);
   document.getElementById('roundTotal').textContent = String(session.items.length);
   document.getElementById('roundTag').textContent = getRoundTag(round);
-  document.getElementById('profileTitle').textContent = `Profil: ${(round.profile && round.profile.name) || 'Candidat'}`;
+  const p = round.profile || {};
+  const fullName = [p.firstName, p.lastName].filter(Boolean).join(' ') || 'Candidat';
+  document.getElementById('profileTitle').textContent = `Profil: ${fullName}`;
   document.getElementById('profileIntro').textContent = 'Lisez les informations puis remplissez le formulaire avec précision.';
   document.getElementById('formTitle').textContent = 'Formulaire de candidature';
   document.getElementById('formIntro').textContent = 'Tous les champs doivent correspondre aux données du profil.';
@@ -344,7 +217,6 @@ function renderRound() {
   profileList.innerHTML = rows.map(([label, value]) => `<li><strong>${escapeHTML(label)}:</strong> ${escapeHTML(value)}</li>`).join('');
 
   const fields = (round.form && Array.isArray(round.form.fields)) ? round.form.fields : [];
-  const names = splitName(round.profile && round.profile.name);
 
   const formFields = document.getElementById('formFields');
   formFields.innerHTML = '';
@@ -363,9 +235,6 @@ function renderRound() {
     input.name = field.name;
     input.type = field.type || 'text';
     input.autocomplete = 'off';
-
-    if (field.name === 'firstName') input.placeholder = names.firstName || 'Prénom';
-    if (field.name === 'lastName') input.placeholder = names.lastName || 'Nom';
 
     input.addEventListener('input', () => {
       input.removeAttribute('aria-invalid');
@@ -387,12 +256,6 @@ function renderRound() {
   const btnNext = document.getElementById('btnNext');
   btnNext.style.display = 'none';
 
-  session.openedDocuments[session.index] = session.openedDocuments[session.index] || {};
-  session.folderOpened[session.index] = session.folderOpened[session.index] || false;
-  session.selectedDocument[session.index] = session.selectedDocument[session.index] || '';
-  session.currentLocation[session.index] = session.currentLocation[session.index] || 'quick';
-  renderDocumentExplorer();
-
   const progress = Math.round((session.index / session.items.length) * 100);
   document.getElementById('progressFill').style.width = `${progress}%`;
   updateKPIs();
@@ -404,29 +267,12 @@ function validateRound() {
   const round = session.items[session.index];
   if (!round) return;
 
-  const opened = session.openedDocuments[session.index] || {};
-  const openedCount = countOpenedDocuments(session.index);
-  if (openedCount < REQUIRED_DOCUMENTS.length) {
-    showToast('Ouvrez d’abord CV.pdf, LM.pdf et Certificats de travail.pdf.', 'error');
-    return;
-  }
-
   const fields = (round.form && Array.isArray(round.form.fields)) ? round.form.fields : [];
   if (!fields.length) return;
 
   let okCount = 0;
   let wrongCount = 0;
   const messages = [];
-
-  REQUIRED_DOCUMENTS.forEach((doc) => {
-    if (opened[doc.key]) {
-      okCount += 1;
-      messages.push(`<div class="feedback-item success">✓ ${escapeHTML(doc.name)} ouvert.</div>`);
-    } else {
-      wrongCount += 1;
-      messages.push(`<div class="feedback-item error">✗ ${escapeHTML(doc.name)} non ouvert.</div>`);
-    }
-  });
 
   fields.forEach((field) => {
     const input = document.getElementById(`field-${field.name}`);
@@ -478,11 +324,10 @@ function validateRound() {
 
   if (isRoundCorrect) {
     const hintPenalty = session.hintsUsed > 0 ? ` (${session.hintsUsed} indice${session.hintsUsed > 1 ? 's' : ''} utilisé${session.hintsUsed > 1 ? 's' : ''})` : '';
-    summary = `<div class="feedback-item success">✨ Parfait! Dossier ouvert et formulaire valide.${hintPenalty} +${awardedXP} XP.</div>`;
+    summary = `<div class="feedback-item success">✨ Parfait! Formulaire valide.${hintPenalty} +${awardedXP} XP.</div>`;
   } else {
-    const totalChecks = fields.length + REQUIRED_DOCUMENTS.length;
-    const errorRate = Math.round((wrongCount / totalChecks) * 100);
-    summary = `<div class="feedback-item error">⚠️ ${wrongCount} erreur${wrongCount > 1 ? 's' : ''} détectée${wrongCount > 1 ? 's' : ''} sur le dossier et le formulaire (${errorRate}%). +${awardedXP} XP.</div>`;
+    const errorRate = Math.round((wrongCount / fields.length) * 100);
+    summary = `<div class="feedback-item error">⚠️ ${wrongCount} erreur${wrongCount > 1 ? 's' : ''} détectée${wrongCount > 1 ? 's' : ''} (${errorRate}%). +${awardedXP} XP.</div>`;
   }
 
   feedback.innerHTML = summary + messages.join('');

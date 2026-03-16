@@ -22,5 +22,20 @@ window.CLIQUER_DATA = {
     { label: '✅ Cocher',                  cat: 'action' },
     { label: '👀 Vérifier',                cat: 'action' },
     { label: '📨 Envoyer',                 cat: 'action' },
+
+    // Emploi
+    { label: '💼 Emploi',                  cat: 'emploi' },
+    { label: '🏢 ORP / Entreprise',        cat: 'emploi' },
+    { label: '📋 CV',                      cat: 'emploi' },
+    { label: '🤝 Entretien',               cat: 'emploi' },
+    { label: '💰 Salaire',                 cat: 'emploi' },
+    { label: '📜 Contrat',                 cat: 'emploi' },
+
+    // Transports
+    { label: '🚌 Bus / Tram',              cat: 'transport' },
+    { label: '🚆 Train',                   cat: 'transport' },
+    { label: '🎫 Billet',                  cat: 'transport' },
+    { label: '🕐 Horaire',                 cat: 'transport' },
+    { label: '🏛️ Gare',                   cat: 'transport' },
   ],
 };

@@ -4,171 +4,283 @@
 window.QUIZ_DATA = [
 
   {
-    category: 'Formulaire',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'Que faut-il faire avant de commencer à remplir un formulaire ?',
+    question: 'Que faut-il faire avant un entretien d’embauche ?',
     choices: [
-      'Signer tout de suite',
-      'Lire les questions',
-      'Cliquer sur envoyer',
-      'Fermer la page'
-    ],
-    answer: 1,
-    explication: 'Il faut d’abord lire les questions pour comprendre les informations demandées.'
-  },
-
-  {
-    category: 'Identité',
-    difficulty: 'easy',
-    question: 'Que faut-il écrire dans la case "Nom" ?',
-    choices: [
-      'Le prénom',
-      'Le nom de famille',
-      'Le pays',
-      'Le numéro de téléphone'
-    ],
-    answer: 1,
-    explication: 'Dans la case "Nom", on écrit le nom de famille.'
-  },
-
-  {
-    category: 'Identité',
-    difficulty: 'easy',
-    question: 'Que faut-il écrire dans la case "Prénom" ?',
-    choices: [
-      'Le nom personnel',
-      'Le code postal',
-      'La rue',
-      'La signature'
+      'Se préparer',
+      'Dormir pendant la journée',
+      'Arriver sans rien savoir',
+      'Oublier l’adresse'
     ],
     answer: 0,
-    explication: 'Le prénom est le nom personnel de la personne.'
+    explication: 'Avant un entretien, il faut se préparer et connaître les informations importantes.'
   },
 
   {
-    category: 'Adresse',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'Quels éléments font partie d’une adresse complète ?',
+    question: 'À quelle heure faut-il arriver à un entretien ?',
     choices: [
-      'Rue, numéro, code postal, ville',
-      'Nom, prénom, pays, photo',
-      'Téléphone, e-mail, mot de passe',
-      'Date, signature, objet, case'
+      'En retard',
+      'À l’heure ou un peu avant',
+      'Une heure après',
+      'Seulement si on veut'
+    ],
+    answer: 1,
+    explication: 'Il faut arriver à l’heure, ou un peu avant, pour montrer son sérieux.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'easy',
+    question: 'Comment se présenter au début de l’entretien ?',
+    choices: [
+      'Dire son nom et le poste',
+      'Parler de ses vacances',
+      'Demander le salaire tout de suite',
+      'Ne rien dire'
     ],
     answer: 0,
-    explication: 'Une adresse complète contient généralement la rue, le numéro, le code postal et la ville.'
+    explication: 'Au début, on dit son nom, son prénom et le poste pour lequel on vient.'
   },
 
   {
-    category: 'Contact',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'À quoi sert le numéro de téléphone dans un formulaire ?',
+    question: 'Que faut-il apporter à un entretien ?',
     choices: [
-      'À envoyer un colis',
-      'À appeler la personne',
-      'À écrire la date',
-      'À signer le document'
+      'Un billet de bus',
+      'Son CV et ses documents utiles',
+      'Des courses',
+      'Une affiche'
     ],
     answer: 1,
-    explication: 'Le numéro de téléphone permet de contacter la personne.'
+    explication: 'Il faut apporter son CV et les documents utiles pour l’entretien.'
   },
 
   {
-    category: 'Contact',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'Qu’est-ce qu’un e-mail ?',
+    question: 'Comment faut-il parler pendant un entretien ?',
     choices: [
-      'Une adresse électronique',
-      'Une rue',
-      'Une signature',
-      'Un code postal'
+      'Poliment et clairement',
+      'Très vite et très fort',
+      'Avec colère',
+      'Sans écouter'
     ],
     answer: 0,
-    explication: 'Un e-mail est une adresse électronique pour recevoir ou envoyer des messages.'
+    explication: 'Pendant un entretien, il faut parler calmement, poliment et clairement.'
   },
 
   {
-    category: 'Action',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'Que veut dire "cocher une case" ?',
+    question: 'Que fait l’employeur pendant l’entretien ?',
     choices: [
-      'Effacer le formulaire',
-      'Choisir une réponse',
-      'Imprimer la page',
-      'Changer de document'
+      'Il pose des questions',
+      'Il conduit le bus',
+      'Il vend un billet',
+      'Il ferme le bureau'
     ],
-    answer: 1,
-    explication: 'Cocher une case signifie sélectionner une réponse.'
+    answer: 0,
+    explication: 'L’employeur pose des questions pour mieux connaître la personne.'
   },
 
   {
-    category: 'Document',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'À quoi sert la signature sur un formulaire ?',
+    question: 'Que pouvez-vous dire pour parler de vos compétences ?',
     choices: [
-      'À décorer la page',
-      'À valider ou confirmer les informations',
-      'À écrire le code postal',
-      'À ouvrir un site internet'
+      'Je sais travailler en équipe',
+      'Je ne veux rien dire',
+      'Je dors beaucoup',
+      'Je ne connais pas ce travail'
     ],
-    answer: 1,
-    explication: 'La signature sert à confirmer les informations écrites sur le document.'
+    answer: 0,
+    explication: 'Pendant l’entretien, il faut expliquer ce que vous savez faire.'
   },
 
   {
-    category: 'Vérification',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'Que faut-il faire avant d’envoyer ou remettre un formulaire ?',
+    question: 'Que faut-il faire si on ne comprend pas une question ?',
     choices: [
-      'Le jeter',
-      'Le relire et vérifier les informations',
-      'Changer son nom',
-      'Effacer une réponse au hasard'
+      'Inventer une réponse',
+      'Demander de répéter',
+      'Partir',
+      'Rire'
     ],
     answer: 1,
-    explication: 'Il faut relire le formulaire pour vérifier que tout est correct.'
+    explication: 'Si on ne comprend pas, on peut demander poliment de répéter la question.'
   },
 
   {
-    category: 'Formulaire en ligne',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'Que signifie un message rouge "champ obligatoire" ?',
+    question: 'Pourquoi faut-il regarder la personne quand elle parle ?',
     choices: [
-      'Le formulaire est terminé',
-      'Il manque une information à remplir',
-      'Le site est fermé',
-      'Le document est imprimé'
+      'Pour montrer qu’on écoute',
+      'Pour compter les minutes',
+      'Pour lire sur le mur',
+      'Pour éviter de répondre'
     ],
-    answer: 1,
-    explication: 'Un champ obligatoire est une case qu’il faut remplir avant de continuer.'
+    answer: 0,
+    explication: 'Regarder la personne montre qu’on écoute avec attention.'
   },
 
   {
-    category: 'Action',
+    category: 'Entretien',
     difficulty: 'easy',
-    question: 'Quand peut-on cliquer sur "Envoyer" ?',
+    question: 'Comment faut-il s’habiller pour un entretien ?',
     choices: [
-      'Quand le formulaire est vide',
-      'Quand le formulaire est complété et vérifié',
-      'Au début',
-      'Seulement sans signature'
+      'De manière propre et correcte',
+      'Avec un pyjama',
+      'Avec des habits sales',
+      'Comme pour la plage'
     ],
-    answer: 1,
-    explication: 'On clique sur envoyer quand le formulaire est terminé et contrôlé.'
+    answer: 0,
+    explication: 'Il faut porter des habits propres et adaptés à la situation.'
   },
 
   {
-    category: 'Date',
-    difficulty: 'easy',
-    question: 'Que contient une date ?',
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Que faut-il faire avant de partir pour l’entretien ?',
     choices: [
-      'Rue, ville, pays',
-      'Jour, mois, année',
-      'Nom, prénom, signature',
-      'Téléphone, e-mail, numéro'
+      'Vérifier l’adresse et l’heure',
+      'Éteindre son téléphone et rester chez soi',
+      'Attendre un appel',
+      'Changer de rendez-vous sans prévenir'
+    ],
+    answer: 0,
+    explication: 'Avant de partir, il faut vérifier l’adresse, l’heure et le trajet.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Que pouvez-vous dire si on vous demande : "Parlez-moi de vous" ?',
+    choices: [
+      'Je présente mon expérience et mes qualités',
+      'Je parle de mon voisin',
+      'Je donne mon code postal seulement',
+      'Je ne réponds pas'
+    ],
+    answer: 0,
+    explication: 'On peut parler de son expérience, de ses qualités et du poste recherché.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Que signifie être motivé pour un poste ?',
+    choices: [
+      'Vouloir faire ce travail sérieusement',
+      'Vouloir partir vite',
+      'Ne pas écouter',
+      'Changer d’idée chaque minute'
+    ],
+    answer: 0,
+    explication: 'Être motivé veut dire vouloir faire le travail avec sérieux et intérêt.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Que faut-il faire à la fin de l’entretien ?',
+    choices: [
+      'Remercier la personne',
+      'Partir sans parler',
+      'Fermer la porte fort',
+      'Demander un café'
+    ],
+    answer: 0,
+    explication: 'À la fin de l’entretien, il faut remercier la personne.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Si vous êtes en retard, que faut-il faire ?',
+    choices: [
+      'Ne rien dire',
+      'Téléphoner pour prévenir',
+      'Rentrer à la maison',
+      'Arriver sans explication'
     ],
     answer: 1,
-    explication: 'Une date contient le jour, le mois et l’année.'
+    explication: 'Si vous êtes en retard, il faut prévenir rapidement.'
   },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Pourquoi l’employeur demande parfois si vous êtes disponible rapidement ?',
+    choices: [
+      'Pour savoir quand vous pouvez commencer',
+      'Pour connaître votre adresse e-mail',
+      'Pour choisir votre billet',
+      'Pour savoir votre âge exact'
+    ],
+    answer: 0,
+    explication: 'Cette question permet de savoir quand vous pouvez commencer le travail.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Que faut-il éviter pendant un entretien ?',
+    choices: [
+      'Couper la parole',
+      'Écouter la question',
+      'Répondre calmement',
+      'Dire bonjour'
+    ],
+    answer: 0,
+    explication: 'Il faut éviter de couper la parole et rester respectueux.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Que pouvez-vous dire pour montrer une qualité ?',
+    choices: [
+      'Je suis ponctuel et sérieux',
+      'Je n’aime pas travailler',
+      'Je ne sais jamais',
+      'Je viens peut-être'
+    ],
+    answer: 0,
+    explication: 'Il est utile de donner des qualités adaptées au travail.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Pourquoi faut-il connaître le poste avant l’entretien ?',
+    choices: [
+      'Pour répondre plus facilement',
+      'Pour acheter un billet',
+      'Pour écrire un e-mail',
+      'Pour changer de prénom'
+    ],
+    answer: 0,
+    explication: 'Connaître le poste aide à répondre de manière plus précise.'
+  },
+
+  {
+    category: 'Entretien',
+    difficulty: 'medium',
+    question: 'Que peut demander l’employeur à la fin ?',
+    choices: [
+      'Si vous avez des questions',
+      'Votre couleur préférée seulement',
+      'Le nom de votre voisin',
+      'Votre mot de passe'
+    ],
+    answer: 0,
+    explication: 'À la fin, l’employeur peut demander si vous avez des questions.'
+  }
 
 ];

@@ -3,7 +3,7 @@
   Pour les 'histoire' : champ `transcript` (texte continu, 1 voix).
   Pour les 'dialogue'  : champ `lines` (tableau de répliques).
     Chaque ligne : { speaker: "Nom", gender: "f"|"m", text: "..." }
-    Le transcript est généré automatiquement pour l'affichage.
+    Le transcript est généré automatiquement pour l’affichage.
 */
 'use strict';
 
@@ -14,31 +14,31 @@ window.ECOUTER_DATA = [
     type: 'histoire',
     title: 'Le formulaire de Nadia',
     category: 'Remplir un formulaire',
-    transcript: `Nadia est dans un centre administratif. Elle doit remplir un formulaire d’inscription. Elle prend un stylo et lit les questions calmement. Dans la première partie, elle écrit son nom, son prénom et sa date de naissance. Ensuite, elle complète son adresse avec la rue, le numéro, le code postal et la ville. Après, elle écrit son numéro de téléphone et son adresse e-mail. Avant de finir, elle relit toutes les informations. Elle voit une petite erreur dans son numéro de téléphone, puis elle la corrige. À la fin, elle signe le document et le remet à l’accueil.`,
+    transcript: `Nadia est dans un centre administratif. Elle doit remplir un formulaire d’inscription. Elle prend un stylo et lit les questions calmement. Dans la première partie, elle écrit son nom, son prénom et sa date de naissance. Ensuite, elle complète son adresse avec la rue, le numéro, le code postal et la ville. Après, elle écrit son numéro de téléphone et son adresse e-mail. Avant de finir, elle relit toutes les informations. Elle voit une erreur dans son numéro de téléphone et elle la corrige. À la fin, elle signe le document et le remet à l’accueil.`,
     questions: [
       {
         question: 'Que fait Nadia au début ?',
-        choices: ['Elle téléphone', 'Elle lit les questions', 'Elle ferme le document', 'Elle imprime une photo'],
+        choices: ['Elle téléphone', 'Elle lit les questions', 'Elle ferme le document', 'Elle part du bureau'],
         answer: 1,
-        explication: 'Nadia commence par lire les questions calmement avant d’écrire.'
+        explication: 'Nadia commence par lire les questions avant d’écrire.'
       },
       {
-        question: 'Quelles informations Nadia écrit-elle dans la première partie ?',
-        choices: ['Son pays et son travail', 'Son nom, son prénom et sa date de naissance', 'Son mot de passe et son code PIN', 'Le nom de son médecin'],
+        question: 'Qu’écrit Nadia dans la première partie ?',
+        choices: ['Son pays et son travail', 'Son nom, son prénom et sa date de naissance', 'Son mot de passe', 'Le nom du médecin'],
         answer: 1,
         explication: 'Dans la première partie, elle écrit son nom, son prénom et sa date de naissance.'
       },
       {
         question: 'Que fait Nadia avant de signer ?',
-        choices: ['Elle part', 'Elle appelle quelqu’un', 'Elle relit et corrige une erreur', 'Elle change de formulaire'],
+        choices: ['Elle part', 'Elle appelle quelqu’un', 'Elle relit et corrige une erreur', 'Elle change de salle'],
         answer: 2,
-        explication: 'Elle relit le formulaire et corrige une erreur dans son numéro de téléphone.'
+        explication: 'Elle relit le formulaire et corrige une erreur.'
       },
       {
         question: 'Que fait Nadia à la fin ?',
         choices: ['Elle jette le document', 'Elle signe et remet le document à l’accueil', 'Elle envoie un SMS', 'Elle ouvre son e-mail'],
         answer: 1,
-        explication: 'À la fin, elle signe le document et le remet à l’accueil.'
+        explication: 'À la fin, elle signe puis remet le document à l’accueil.'
       }
     ]
   },
@@ -58,7 +58,7 @@ window.ECOUTER_DATA = [
       { speaker: 'Agent', gender: 'f', text: 'Très bien. Vous pouvez cocher la case mariée.' },
       { speaker: 'Amina', gender: 'f', text: 'Merci. Et ici, je dois écrire mon adresse complète ?' },
       { speaker: 'Agent', gender: 'f', text: 'Oui, la rue, le numéro, le code postal et la ville.' },
-      { speaker: 'Amina', gender: 'f', text: 'Très bien, merci beaucoup.' },
+      { speaker: 'Amina', gender: 'f', text: 'Très bien, merci beaucoup.' }
     ],
     questions: [
       {
@@ -77,11 +77,11 @@ window.ECOUTER_DATA = [
         question: 'Quelle est la situation d’Amina ?',
         choices: ['Célibataire', 'Mariée', 'Divorcée', 'Veuve'],
         answer: 1,
-        explication: 'Amina dit clairement : “Moi, je suis mariée.”'
+        explication: 'Amina dit : “Moi, je suis mariée.”'
       },
       {
         question: 'Que doit-elle écrire dans son adresse complète ?',
-        choices: ['Seulement la ville', 'La rue, le numéro, le code postal et la ville', 'Seulement le pays', 'Le nom du bâtiment uniquement'],
+        choices: ['Seulement la ville', 'La rue, le numéro, le code postal et la ville', 'Seulement le pays', 'Le nom du bâtiment'],
         answer: 1,
         explication: 'L’agent explique qu’il faut écrire la rue, le numéro, le code postal et la ville.'
       }
@@ -93,11 +93,11 @@ window.ECOUTER_DATA = [
     type: 'histoire',
     title: 'Le formulaire en ligne',
     category: 'Formulaire numérique',
-    transcript: `Youssef doit remplir un formulaire en ligne pour une inscription. Il ouvre la page sur l’ordinateur et commence à compléter les champs. Il écrit son nom, son prénom, sa date de naissance et son adresse e-mail. Ensuite, il choisit sa nationalité dans une liste. Puis il coche une case pour confirmer que les informations sont correctes. Quand il clique sur envoyer, un message rouge apparaît : champ obligatoire manquant. Youssef regarde de nouveau le formulaire et voit qu’il a oublié son numéro de téléphone. Il l’ajoute, puis il clique encore une fois sur envoyer. Cette fois, le message dit : votre formulaire a bien été envoyé.`,
+    transcript: `Youssef doit remplir un formulaire en ligne pour une inscription. Il ouvre la page sur l’ordinateur et commence à compléter les champs. Il écrit son nom, son prénom, sa date de naissance et son adresse e-mail. Ensuite, il choisit sa nationalité dans une liste. Puis il coche une case pour confirmer que les informations sont correctes. Quand il clique sur envoyer, un message rouge apparaît : champ obligatoire manquant. Youssef regarde de nouveau le formulaire et voit qu’il a oublié son numéro de téléphone. Il l’ajoute, puis il clique encore une fois sur envoyer. Cette fois, le formulaire est accepté.`,
     questions: [
       {
         question: 'Sur quoi Youssef remplit-il le formulaire ?',
-        choices: ['Sur papier', 'Sur un téléphone cassé', 'Sur un ordinateur', 'Sur une clé USB'],
+        choices: ['Sur papier', 'Sur un téléphone', 'Sur un ordinateur', 'Sur une clé USB'],
         answer: 2,
         explication: 'Le texte dit qu’il ouvre la page sur l’ordinateur.'
       },
@@ -109,7 +109,7 @@ window.ECOUTER_DATA = [
       },
       {
         question: 'Pourquoi le message rouge apparaît-il ?',
-        choices: ['Le site est fermé', 'Il a oublié un champ obligatoire', 'Il a écrit son nom deux fois', 'Il n’a pas de connexion'],
+        choices: ['Le site est fermé', 'Il a oublié un champ obligatoire', 'Il a écrit son nom deux fois', 'Il n’a pas de ticket'],
         answer: 1,
         explication: 'Le message rouge indique qu’un champ obligatoire manque.'
       },
@@ -134,10 +134,10 @@ window.ECOUTER_DATA = [
       { speaker: 'Rosa', gender: 'f', text: 'Ah oui, je vois maintenant.' },
       { speaker: 'Formateur', gender: 'm', text: 'Très bien. Et n’oublie pas la date.' },
       { speaker: 'Rosa', gender: 'f', text: 'Je dois écrire la date d’aujourd’hui ?' },
-      { speaker: 'Formateur', gender: 'm', text: 'Oui, la date d’aujourd’hui, puis votre signature à la fin.' },
+      { speaker: 'Formateur', gender: 'm', text: 'Oui, la date d’aujourd’hui, puis ta signature à la fin.' },
       { speaker: 'Rosa', gender: 'f', text: 'D’accord. Après, je peux donner le document ?' },
       { speaker: 'Formateur', gender: 'm', text: 'Oui, mais relis avant.' },
-      { speaker: 'Rosa', gender: 'f', text: 'Très bien, je vais vérifier.' },
+      { speaker: 'Rosa', gender: 'f', text: 'Très bien, je vais vérifier.' }
     ],
     questions: [
       {
@@ -162,7 +162,7 @@ window.ECOUTER_DATA = [
         question: 'Que doit-elle faire avant de donner le document ?',
         choices: ['Le plier', 'Le jeter', 'Le relire', 'Le scanner'],
         answer: 2,
-        explication: 'Le formateur dit clairement : “relis avant”.'
+        explication: 'Le formateur dit clairement : “Relis avant.”'
       }
     ]
   },
@@ -172,7 +172,7 @@ window.ECOUTER_DATA = [
     type: 'histoire',
     title: 'Une erreur dans le formulaire',
     category: 'Vérification',
-    transcript: `Samir remplit un formulaire rapidement. Il écrit son nom, son prénom, son adresse et son téléphone. Ensuite, il signe sans relire. Quand l’employée regarde le document, elle remarque un problème : le code postal n’est pas correct. Samir regarde de nouveau son adresse et comprend son erreur. Il barre le mauvais numéro, écrit le bon code postal et vérifie aussi la ville. Après cela, le formulaire est correct. Samir comprend qu’il est important de prendre son temps et de vérifier avant de signer.`,
+    transcript: `Samir remplit un formulaire rapidement. Il écrit son nom, son prénom, son adresse et son téléphone. Ensuite, il signe sans relire. Quand l’employée regarde le document, elle remarque un problème : le code postal n’est pas correct. Samir regarde encore une fois son adresse et comprend son erreur. Il barre le mauvais numéro, écrit le bon code postal et vérifie aussi la ville. Après cela, le formulaire est correct. Samir comprend qu’il est important de prendre son temps et de vérifier avant de signer.`,
     questions: [
       {
         question: 'Que fait Samir trop vite ?',
@@ -188,7 +188,7 @@ window.ECOUTER_DATA = [
       },
       {
         question: 'Que fait Samir après ?',
-        choices: ['Il recommence un nouveau dossier', 'Il corrige le code postal et vérifie la ville', 'Il rentre à la maison', 'Il demande un ordinateur'],
+        choices: ['Il recommence un autre document', 'Il corrige le code postal et vérifie la ville', 'Il rentre à la maison', 'Il demande un ordinateur'],
         answer: 1,
         explication: 'Samir corrige le code postal puis vérifie aussi la ville.'
       },
@@ -216,7 +216,7 @@ window.ECOUTER_DATA = [
       { speaker: 'Nora', gender: 'f', text: 'Tenez.' },
       { speaker: 'Employé', gender: 'm', text: 'Merci. Tout est complet.' },
       { speaker: 'Nora', gender: 'f', text: 'Merci, bonne journée.' },
-      { speaker: 'Employé', gender: 'm', text: 'Bonne journée madame.' },
+      { speaker: 'Employé', gender: 'm', text: 'Bonne journée madame.' }
     ],
     questions: [
       {
@@ -242,6 +242,85 @@ window.ECOUTER_DATA = [
         choices: ['Le formulaire n’est pas correct', 'Il manque une page', 'Tout est complet', 'Il faut revenir demain'],
         answer: 2,
         explication: 'À la fin, l’employé confirme que tout est complet.'
+      }
+    ]
+  },
+
+  {
+    id: 'ep07',
+    type: 'dialogue',
+    title: 'À l’ORP',
+    category: 'Recherche d’emploi',
+    lines: [
+      { speaker: 'Conseillère', gender: 'f', text: 'Bonjour Monsieur Diallo. Asseyez-vous, je vous en prie.' },
+      { speaker: 'Mamadou', gender: 'm', text: 'Bonjour Madame. Merci.' },
+      { speaker: 'Conseillère', gender: 'f', text: 'Avez-vous vos preuves de recherche d’emploi pour ce mois ?' },
+      { speaker: 'Mamadou', gender: 'm', text: 'Oui, j’ai contacté cinq entreprises ce mois-ci. Voici les documents.' },
+      { speaker: 'Conseillère', gender: 'f', text: 'Très bien. Dans quel secteur cherchez-vous du travail ?' },
+      { speaker: 'Mamadou', gender: 'm', text: 'Je cherche un poste dans la logistique ou le nettoyage.' },
+      { speaker: 'Conseillère', gender: 'f', text: 'D’accord. J’ai une offre à Renens pour un poste de nettoyage. Êtes-vous disponible ?' },
+      { speaker: 'Mamadou', gender: 'm', text: 'Oui, je suis disponible immédiatement.' },
+      { speaker: 'Conseillère', gender: 'f', text: 'Parfait. Je vous envoie les détails par e-mail. Vous avez un entretien jeudi à 10h.' },
+      { speaker: 'Mamadou', gender: 'm', text: 'Merci beaucoup, je serai présent.' }
+    ],
+    questions: [
+      {
+        question: 'Que doit montrer Mamadou à la conseillère ?',
+        choices: ['Son passeport uniquement', 'Ses preuves de recherche d’emploi', 'Son billet de train', 'Son formulaire de logement'],
+        answer: 1,
+        explication: 'La conseillère demande les preuves de recherche d’emploi.'
+      },
+      {
+        question: 'Combien d’entreprises a-t-il contacté ?',
+        choices: ['Deux', 'Trois', 'Cinq', 'Dix'],
+        answer: 2,
+        explication: 'Mamadou dit qu’il a contacté cinq entreprises.'
+      },
+      {
+        question: 'Dans quel secteur cherche-t-il du travail ?',
+        choices: ['Cuisine et restauration', 'Logistique ou nettoyage', 'Construction uniquement', 'Informatique'],
+        answer: 1,
+        explication: 'Il cherche un poste dans la logistique ou le nettoyage.'
+      },
+      {
+        question: 'Quand est l’entretien ?',
+        choices: ['Lundi à 9h', 'Mercredi à 14h', 'Jeudi à 10h', 'Vendredi à 8h'],
+        answer: 2,
+        explication: 'La conseillère lui donne un entretien jeudi à 10h.'
+      }
+    ]
+  },
+
+  {
+    id: 'ep08',
+    type: 'histoire',
+    title: 'Prendre le bus à Lausanne',
+    category: 'Transports publics',
+    transcript: `Fatima doit aller à Renens pour un entretien d’embauche. Elle habite à Pully. Elle regarde l’horaire des bus sur son téléphone. Le bus numéro 9 part à 8h15 de l’arrêt Pully-Gare. Fatima va à l’arrêt et achète un billet à la machine. Elle vérifie que son billet est valable pour deux zones. Le bus arrive à l’heure. Fatima monte et s’assoit. Elle regarde les noms des arrêts sur l’écran. À la gare de Lausanne, elle change de bus. Elle prend un bus direction Renens-Gare. Elle descend à l’arrêt Renens-Gare et arrive cinq minutes avant l’entretien.`,
+    questions: [
+      {
+        question: 'Où habite Fatima ?',
+        choices: ['À Lausanne', 'À Pully', 'À Renens', 'À Montreux'],
+        answer: 1,
+        explication: 'Le texte dit qu’elle habite à Pully.'
+      },
+      {
+        question: 'Pourquoi regarde-t-elle l’horaire ?',
+        choices: ['Pour appeler l’ORP', 'Pour acheter un billet', 'Pour connaître l’heure du bus', 'Pour trouver le nom du conseiller'],
+        answer: 2,
+        explication: 'Elle regarde l’horaire pour savoir quand part le bus.'
+      },
+      {
+        question: 'Où change-t-elle de bus ?',
+        choices: ['À Pully-Gare', 'À Renens-Gare', 'À la gare de Lausanne', 'À l’ORP'],
+        answer: 2,
+        explication: 'Elle change de bus à la gare de Lausanne.'
+      },
+      {
+        question: 'Quand arrive-t-elle à Renens ?',
+        choices: ['En retard de dix minutes', 'Cinq minutes avant l’entretien', 'Exactement à l’heure', 'Une heure trop tôt'],
+        answer: 1,
+        explication: 'Fatima arrive cinq minutes avant l’entretien.'
       }
     ]
   }

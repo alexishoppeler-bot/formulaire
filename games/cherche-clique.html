@@ -215,8 +215,8 @@
       updateKpi();
       setTimeout(() => {
         element.classList.remove('correct');
-        renderGrid();
         nextQuestion();
+        renderGrid();
       }, 600);
     } else {
       // Erreur

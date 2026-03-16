@@ -3,7 +3,7 @@
  * Mapping clavier suisse français (CH-FR, QWERTZ) → frappes exactes
  *
  * Chaque entrée décrit comment produire le caractère sur un clavier CH-FR réel.
- * Format d'une entrée :
+ * Format d’une entrée :
  *
  *   'X': { sequence: [ step, step, … ] }
  *
@@ -17,7 +17,7 @@
  * Convention :
  *   - `key`   : la touche physique (valeur en bas sans modificateur)
  *   - `type`  : 'normal' | 'shift' | 'altgr' | 'dead'
- *   - `label` : texte pédagogique affiché à l'apprenant
+ *   - `label` : texte pédagogique affiché à l’apprenant
  *
  * Touches mortes CH-FR :
  *   ^ (accent circonflexe)  → touche physique "^" (à droite de P, sans Shift)
@@ -114,7 +114,7 @@ window.CH_FR_KEYMAP = (function () {
   });
   // Sur CH-FR QWERTZ, y et z sont inversés par rapport à QWERTY :
   //   la touche physique "z" produit 'z', "y" produit 'y' (géré ci-dessus)
-  // (Le remapping QWERTY↔QWERTZ est géré par l'OS – le label suffit.)
+  // (Le remapping QWERTY↔QWERTZ est géré par l’OS – le label suffit.)
 
   // ── Lettres majuscules ──────────────────────────────────────────────────────
   'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(c => {
@@ -142,7 +142,7 @@ window.CH_FR_KEYMAP = (function () {
     '?':  { sequence: [shift("'", "Maj + '")] },
     '`':  { sequence: [shift('^', 'Maj + ^ (rangée chiffres, 1re position)')] },
     // Note: '`' ici est le caractère littéral backtick comme touche morte
-    //       Si vous voulez insérer ` directement, c'est sur la touche ° / §
+    //       Si vous voulez insérer ` directement, c’est sur la touche ° / §
   });
 
   // ── Lettres spéciales directes (sans modificateur) ─────────────────────────
@@ -275,7 +275,7 @@ window.CH_FR_KEYMAP = (function () {
    * Retourne les informations de frappe pour un caractère donné.
    * @param {string} char – le caractère à produire (longueur 1)
    * @returns {{ sequence: Array }|null}
-   *   null si le caractère n'est pas dans le mapping.
+   *   null si le caractère n’est pas dans le mapping.
    */
   function lookup(char) {
     return MAP[char] || null;
@@ -335,7 +335,7 @@ window.CH_FR_KEYMAP = (function () {
     const steps = entry.sequence;
 
     // Surligner selon le premier step (la vraie touche à presser maintenant)
-    // Si c'est une séquence (touche morte), on surligne l'étape 1 d'abord
+    // Si c’est une séquence (touche morte), on surligne l’étape 1 d’abord
     const firstStep = steps[0];
 
     // Surligner la touche physique
@@ -388,7 +388,7 @@ window.CH_FR_KEYMAP = (function () {
 
 
 /* ─────────────────────────────────────────────────────────────────────────────
- * EXEMPLE D'UTILISATION (à coller dans la console ou dans clavier.html)
+ * EXEMPLE D’UTILISATION (à coller dans la console ou dans clavier.html)
  * ─────────────────────────────────────────────────────────────────────────────
  *
  *  // 1) Décrire comment taper 'Â'
